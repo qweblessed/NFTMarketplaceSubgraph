@@ -1,0 +1,53 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: undefined
+    network: goerli
+    source:
+      address: "0x71205f276BA957B93A3f4a46D98921607dd42966"
+      abi: marketplace
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - CancelBid
+        - FinishRentalForCollateral
+        - FinishRentalForNFT
+        - Listed
+        - ListingOffer
+        - ListingOfferCompleted
+        - QuotedForStaking
+        - Rental
+        - Sale
+        - StakingOfferAccepted
+        - StakingOffered
+      abis:
+        - name: marketplace
+          file: ./abis/marketplace.json
+      eventHandlers:
+        - event: CancelBid(uint256,address)
+          handler: handleCancelBid
+        - event: FinishRentalForCollateral(uint256)
+          handler: handleFinishRentalForCollateral
+        - event: FinishRentalForNFT(uint256)
+          handler: handleFinishRentalForNFT
+        - event: Listed(uint256,address,address,uint256,uint256)
+          handler: handleListed
+        - event: ListingOffer(uint256,address,uint256)
+          handler: handleListingOffer
+        - event: ListingOfferCompleted(uint256,address)
+          handler: handleListingOfferCompleted
+        - event: QuotedForStaking(uint256,address,address,uint256,uint256,uint256,uint256)
+          handler: handleQuotedForStaking
+        - event: Rental(uint256,address)
+          handler: handleRental
+        - event: Sale(uint256,address,address,uint256,uint256)
+          handler: handleSale
+        - event: StakingOfferAccepted(uint256,address)
+          handler: handleStakingOfferAccepted
+        - event: StakingOffered(uint256,address,uint256,uint256)
+          handler: handleStakingOffered
+      file: ./src/marketplace.ts
