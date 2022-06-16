@@ -1,0 +1,74 @@
+specVersion: 0.0.4
+schema:
+  file: schema.graphql
+dataSources:
+  - kind: ethereum
+    name: marketplace
+    network: goerli
+    source:
+      address: "0x397eBFe623028F9AcC060Ae66b8d6a5DdB2cbef5"
+      abi: marketplace
+      startBlock: 7040147
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - CancelBid
+        - FinishRentalForCollateral
+        - FinishRentalForNFT
+        - Listed
+        - ListingOffer
+        - ListingOfferCompleted
+        - QuotedForStaking
+        - Rental
+        - Sale
+        - StakingOfferAccepted
+        - StakingOffered
+        - Token
+        - User
+      abis:
+        - name: marketplace
+          file: marketplace\abis\marketplace.json
+        - name: nft
+          file: marketplace\abis\nft.json
+      eventHandlers:
+        - event: CancelBid(uint256,address)
+          handler: handleCancelBid
+        - event: FinishRentalForCollateral(uint256)
+          handler: handleFinishRentalForCollateral
+        - event: FinishRentalForNFT(uint256)
+          handler: handleFinishRentalForNFT
+        - event: Listed(uint256,address,address,uint256,uint256)
+          handler: handleListed
+        - event: QuotedForStaking(uint256,address,address,uint256,uint256,uint256,uint256)
+          handler: handleQuotedForStaking
+        - event: Rental(uint256,address)
+          handler: handleRental
+        - event: Sale(uint256,address,address,uint256,uint256)
+          handler: handleSale
+        - event: StakingOfferAccepted(uint256,address)
+          handler: handleStakingOfferAccepted
+        - event: StakingOffered(uint256,address,uint256,uint256)
+          handler: handleStakingOffered
+      file: marketplace\marketplace.wasm
+  - kind: ethereum
+    name: nft
+    network: goerli
+    source:
+      address: "0x08eC8Fe503218573e28899B08C9Fa0316b5Ef8d3"
+      abi: nft
+      startBlock: 7040147
+    mapping:
+      kind: ethereum/contract
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+      abis:
+        - name: nft
+          file: nft\abis\nft.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+      file: marketplace\marketplace.wasm
