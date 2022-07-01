@@ -9,6 +9,24 @@ enum StakingStatus{
   RENTED
   EXPIRED
 }
+enum OfferStatus{
+  ACTIVE
+  DECLINE
+  ACCEPTED
+  EXPIRED
+  UNACTIVE
+}
+
+enum Category{
+  ARTWORK,
+  SPORTS,
+  PHOTOGRAPHY,
+  GAMEFI,
+  CELEBRITY,
+  RWANFT,
+  EXPLICIT
+  }
+
 type Listing @entity { 
   id: ID!
   seller: Bytes!
@@ -19,6 +37,12 @@ type Listing @entity {
   listingStatus:ListingStatus!
   tokenName: String!
   tokenDescription: String!
+  hasOffer:Boolean!
+  collectionId:BigInt
+  collectionName:String
+  # collectionName: String
+  # collectionId: BigInt
+
 }
 
 type StakingListing @entity { 
@@ -33,6 +57,9 @@ type StakingListing @entity {
   colloteralWei:BigInt!
   premiumWei:BigInt!
   deadlineUTC:BigInt!
+  hasOffer:Boolean!
+  # collectionName: String
+  # collectionId: BigInt
 }
 
 type StakingOffer @entity {
@@ -46,11 +73,39 @@ type StakingOffer @entity {
   tokenId: BigInt!
   tokenName:String
   tokenAdress: Bytes!
+  offerStatus:OfferStatus!
+
 }
 
-#     event StakingOffered(
-#         uint256 stakingId,
-#         address taker,
-#         uint256 collateral,
-#         uint256 premium
-#     );
+type BuyingOffer @entity {
+  id: ID!
+  taker: Bytes!
+  listingId:BigInt!
+  newOfferedPrice:BigInt!
+  owner:Bytes!
+  tokenURI: String
+  tokenId: BigInt!
+  tokenName:String
+  tokenAdress: Bytes!
+  offerStatus:OfferStatus!
+
+}
+type Token @entity {
+  id: ID!
+  name:String!
+  uri:String!
+  desciption:String!
+  owner:Bytes
+  collectionId: BigInt!
+  collectionName: String!
+}
+
+type Collection @entity {
+  id: ID!
+  owner: Bytes!
+  collectionName:String!
+  collectionInfo:String!
+  collectionUrl:String!
+  collectionCategory:Category!
+  collectionVolume:BigInt!
+}

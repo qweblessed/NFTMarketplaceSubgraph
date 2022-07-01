@@ -62,28 +62,6 @@ export class ApprovalForAll__Params {
   }
 }
 
-export class OwnershipTransferred extends ethereum.Event {
-  get params(): OwnershipTransferred__Params {
-    return new OwnershipTransferred__Params(this);
-  }
-}
-
-export class OwnershipTransferred__Params {
-  _event: OwnershipTransferred;
-
-  constructor(event: OwnershipTransferred) {
-    this._event = event;
-  }
-
-  get previousOwner(): Address {
-    return this._event.parameters[0].value.toAddress();
-  }
-
-  get newOwner(): Address {
-    return this._event.parameters[1].value.toAddress();
-  }
-}
-
 export class Transfer extends ethereum.Event {
   get params(): Transfer__Params {
     return new Transfer__Params(this);
@@ -110,15 +88,153 @@ export class Transfer__Params {
   }
 }
 
+export class collectionTokenMint extends ethereum.Event {
+  get params(): collectionTokenMint__Params {
+    return new collectionTokenMint__Params(this);
+  }
+}
+
+export class collectionTokenMint__Params {
+  _event: collectionTokenMint;
+
+  constructor(event: collectionTokenMint) {
+    this._event = event;
+  }
+
+  get to(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get name(): string {
+    return this._event.parameters[2].value.toString();
+  }
+
+  get url(): string {
+    return this._event.parameters[3].value.toString();
+  }
+
+  get description(): string {
+    return this._event.parameters[4].value.toString();
+  }
+
+  get collectionId(): BigInt {
+    return this._event.parameters[5].value.toBigInt();
+  }
+}
+
+export class createdCollection extends ethereum.Event {
+  get params(): createdCollection__Params {
+    return new createdCollection__Params(this);
+  }
+}
+
+export class createdCollection__Params {
+  _event: createdCollection;
+
+  constructor(event: createdCollection) {
+    this._event = event;
+  }
+
+  get param0(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+
+  get collectionName(): string {
+    return this._event.parameters[1].value.toString();
+  }
+
+  get collectionId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get information(): string {
+    return this._event.parameters[3].value.toString();
+  }
+
+  get url(): string {
+    return this._event.parameters[4].value.toString();
+  }
+
+  get owner(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
+}
+
+export class verify extends ethereum.Event {
+  get params(): verify__Params {
+    return new verify__Params(this);
+  }
+}
+
+export class verify__Params {
+  _event: verify;
+
+  constructor(event: verify) {
+    this._event = event;
+  }
+
+  get collectionId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class nft__collectionsResult {
+  value0: string;
+  value1: Address;
+  value2: i32;
+  value3: boolean;
+
+  constructor(value0: string, value1: Address, value2: i32, value3: boolean) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromString(this.value0));
+    map.set("value1", ethereum.Value.fromAddress(this.value1));
+    map.set(
+      "value2",
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2))
+    );
+    map.set("value3", ethereum.Value.fromBoolean(this.value3));
+    return map;
+  }
+
+  getName(): string {
+    return this.value0;
+  }
+
+  getOwner(): Address {
+    return this.value1;
+  }
+
+  getCategory(): i32 {
+    return this.value2;
+  }
+
+  getIsVerified(): boolean {
+    return this.value3;
+  }
+}
+
 export class nft__tokenMetadataResult {
   value0: string;
   value1: string;
   value2: string;
+  value3: BigInt;
 
-  constructor(value0: string, value1: string, value2: string) {
+  constructor(value0: string, value1: string, value2: string, value3: BigInt) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
+    this.value3 = value3;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -126,6 +242,7 @@ export class nft__tokenMetadataResult {
     map.set("value0", ethereum.Value.fromString(this.value0));
     map.set("value1", ethereum.Value.fromString(this.value1));
     map.set("value2", ethereum.Value.fromString(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
     return map;
   }
 
@@ -139,6 +256,10 @@ export class nft__tokenMetadataResult {
 
   getUrl(): string {
     return this.value2;
+  }
+
+  getCollectionId(): BigInt {
+    return this.value3;
   }
 }
 
@@ -164,6 +285,41 @@ export class nft extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  collections(param0: BigInt): nft__collectionsResult {
+    let result = super.call(
+      "collections",
+      "collections(uint256):(string,address,uint8,bool)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return new nft__collectionsResult(
+      result[0].toString(),
+      result[1].toAddress(),
+      result[2].toI32(),
+      result[3].toBoolean()
+    );
+  }
+
+  try_collections(param0: BigInt): ethereum.CallResult<nft__collectionsResult> {
+    let result = super.tryCall(
+      "collections",
+      "collections(uint256):(string,address,uint8,bool)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new nft__collectionsResult(
+        value[0].toString(),
+        value[1].toAddress(),
+        value[2].toI32(),
+        value[3].toBoolean()
+      )
+    );
   }
 
   getApproved(tokenId: BigInt): Address {
@@ -324,14 +480,15 @@ export class nft extends ethereum.SmartContract {
   tokenMetadata(param0: BigInt): nft__tokenMetadataResult {
     let result = super.call(
       "tokenMetadata",
-      "tokenMetadata(uint256):(string,string,string)",
+      "tokenMetadata(uint256):(string,string,string,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
     return new nft__tokenMetadataResult(
       result[0].toString(),
       result[1].toString(),
-      result[2].toString()
+      result[2].toString(),
+      result[3].toBigInt()
     );
   }
 
@@ -340,7 +497,7 @@ export class nft extends ethereum.SmartContract {
   ): ethereum.CallResult<nft__tokenMetadataResult> {
     let result = super.tryCall(
       "tokenMetadata",
-      "tokenMetadata(uint256):(string,string,string)",
+      "tokenMetadata(uint256):(string,string,string,uint256)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -351,7 +508,8 @@ export class nft extends ethereum.SmartContract {
       new nft__tokenMetadataResult(
         value[0].toString(),
         value[1].toString(),
-        value[2].toString()
+        value[2].toString(),
+        value[3].toBigInt()
       )
     );
   }
@@ -483,28 +641,44 @@ export class ApproveCall__Outputs {
   }
 }
 
-export class RenounceOwnershipCall extends ethereum.Call {
-  get inputs(): RenounceOwnershipCall__Inputs {
-    return new RenounceOwnershipCall__Inputs(this);
+export class CreateCollectionCall extends ethereum.Call {
+  get inputs(): CreateCollectionCall__Inputs {
+    return new CreateCollectionCall__Inputs(this);
   }
 
-  get outputs(): RenounceOwnershipCall__Outputs {
-    return new RenounceOwnershipCall__Outputs(this);
+  get outputs(): CreateCollectionCall__Outputs {
+    return new CreateCollectionCall__Outputs(this);
   }
 }
 
-export class RenounceOwnershipCall__Inputs {
-  _call: RenounceOwnershipCall;
+export class CreateCollectionCall__Inputs {
+  _call: CreateCollectionCall;
 
-  constructor(call: RenounceOwnershipCall) {
+  constructor(call: CreateCollectionCall) {
     this._call = call;
   }
+
+  get _collectionName(): string {
+    return this._call.inputValues[0].value.toString();
+  }
+
+  get _url(): string {
+    return this._call.inputValues[1].value.toString();
+  }
+
+  get _information(): string {
+    return this._call.inputValues[2].value.toString();
+  }
+
+  get _category(): i32 {
+    return this._call.inputValues[3].value.toI32();
+  }
 }
 
-export class RenounceOwnershipCall__Outputs {
-  _call: RenounceOwnershipCall;
+export class CreateCollectionCall__Outputs {
+  _call: CreateCollectionCall;
 
-  constructor(call: RenounceOwnershipCall) {
+  constructor(call: CreateCollectionCall) {
     this._call = call;
   }
 }
@@ -540,6 +714,10 @@ export class SafeMintGeneralCall__Inputs {
 
   get url(): string {
     return this._call.inputValues[3].value.toString();
+  }
+
+  get collectionId(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
   }
 }
 
@@ -703,32 +881,32 @@ export class TransferFromCall__Outputs {
   }
 }
 
-export class TransferOwnershipCall extends ethereum.Call {
-  get inputs(): TransferOwnershipCall__Inputs {
-    return new TransferOwnershipCall__Inputs(this);
+export class VerifyCollectionCall extends ethereum.Call {
+  get inputs(): VerifyCollectionCall__Inputs {
+    return new VerifyCollectionCall__Inputs(this);
   }
 
-  get outputs(): TransferOwnershipCall__Outputs {
-    return new TransferOwnershipCall__Outputs(this);
+  get outputs(): VerifyCollectionCall__Outputs {
+    return new VerifyCollectionCall__Outputs(this);
   }
 }
 
-export class TransferOwnershipCall__Inputs {
-  _call: TransferOwnershipCall;
+export class VerifyCollectionCall__Inputs {
+  _call: VerifyCollectionCall;
 
-  constructor(call: TransferOwnershipCall) {
+  constructor(call: VerifyCollectionCall) {
     this._call = call;
   }
 
-  get newOwner(): Address {
-    return this._call.inputValues[0].value.toAddress();
+  get collectionId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
   }
 }
 
-export class TransferOwnershipCall__Outputs {
-  _call: TransferOwnershipCall;
+export class VerifyCollectionCall__Outputs {
+  _call: VerifyCollectionCall;
 
-  constructor(call: TransferOwnershipCall) {
+  constructor(call: VerifyCollectionCall) {
     this._call = call;
   }
 }

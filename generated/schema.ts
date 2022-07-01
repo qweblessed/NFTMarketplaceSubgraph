@@ -121,6 +121,49 @@ export class Listing extends Entity {
   set tokenDescription(value: string) {
     this.set("tokenDescription", Value.fromString(value));
   }
+
+  get hasOffer(): boolean {
+    let value = this.get("hasOffer");
+    return value!.toBoolean();
+  }
+
+  set hasOffer(value: boolean) {
+    this.set("hasOffer", Value.fromBoolean(value));
+  }
+
+  get collectionId(): BigInt | null {
+    let value = this.get("collectionId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set collectionId(value: BigInt | null) {
+    if (!value) {
+      this.unset("collectionId");
+    } else {
+      this.set("collectionId", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get collectionName(): string | null {
+    let value = this.get("collectionName");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set collectionName(value: string | null) {
+    if (!value) {
+      this.unset("collectionName");
+    } else {
+      this.set("collectionName", Value.fromString(<string>value));
+    }
+  }
 }
 
 export class StakingListing extends Entity {
@@ -251,6 +294,15 @@ export class StakingListing extends Entity {
   set deadlineUTC(value: BigInt) {
     this.set("deadlineUTC", Value.fromBigInt(value));
   }
+
+  get hasOffer(): boolean {
+    let value = this.get("hasOffer");
+    return value!.toBoolean();
+  }
+
+  set hasOffer(value: boolean) {
+    this.set("hasOffer", Value.fromBoolean(value));
+  }
 }
 
 export class StakingOffer extends Entity {
@@ -379,5 +431,323 @@ export class StakingOffer extends Entity {
 
   set tokenAdress(value: Bytes) {
     this.set("tokenAdress", Value.fromBytes(value));
+  }
+
+  get offerStatus(): string {
+    let value = this.get("offerStatus");
+    return value!.toString();
+  }
+
+  set offerStatus(value: string) {
+    this.set("offerStatus", Value.fromString(value));
+  }
+}
+
+export class BuyingOffer extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save BuyingOffer entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type BuyingOffer must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("BuyingOffer", id.toString(), this);
+    }
+  }
+
+  static load(id: string): BuyingOffer | null {
+    return changetype<BuyingOffer | null>(store.get("BuyingOffer", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get taker(): Bytes {
+    let value = this.get("taker");
+    return value!.toBytes();
+  }
+
+  set taker(value: Bytes) {
+    this.set("taker", Value.fromBytes(value));
+  }
+
+  get listingId(): BigInt {
+    let value = this.get("listingId");
+    return value!.toBigInt();
+  }
+
+  set listingId(value: BigInt) {
+    this.set("listingId", Value.fromBigInt(value));
+  }
+
+  get newOfferedPrice(): BigInt {
+    let value = this.get("newOfferedPrice");
+    return value!.toBigInt();
+  }
+
+  set newOfferedPrice(value: BigInt) {
+    this.set("newOfferedPrice", Value.fromBigInt(value));
+  }
+
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value!.toBytes();
+  }
+
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
+  }
+
+  get tokenURI(): string | null {
+    let value = this.get("tokenURI");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set tokenURI(value: string | null) {
+    if (!value) {
+      this.unset("tokenURI");
+    } else {
+      this.set("tokenURI", Value.fromString(<string>value));
+    }
+  }
+
+  get tokenId(): BigInt {
+    let value = this.get("tokenId");
+    return value!.toBigInt();
+  }
+
+  set tokenId(value: BigInt) {
+    this.set("tokenId", Value.fromBigInt(value));
+  }
+
+  get tokenName(): string | null {
+    let value = this.get("tokenName");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set tokenName(value: string | null) {
+    if (!value) {
+      this.unset("tokenName");
+    } else {
+      this.set("tokenName", Value.fromString(<string>value));
+    }
+  }
+
+  get tokenAdress(): Bytes {
+    let value = this.get("tokenAdress");
+    return value!.toBytes();
+  }
+
+  set tokenAdress(value: Bytes) {
+    this.set("tokenAdress", Value.fromBytes(value));
+  }
+
+  get offerStatus(): string {
+    let value = this.get("offerStatus");
+    return value!.toString();
+  }
+
+  set offerStatus(value: string) {
+    this.set("offerStatus", Value.fromString(value));
+  }
+}
+
+export class Token extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Token entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Token must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Token", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Token | null {
+    return changetype<Token | null>(store.get("Token", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value!.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string {
+    let value = this.get("uri");
+    return value!.toString();
+  }
+
+  set uri(value: string) {
+    this.set("uri", Value.fromString(value));
+  }
+
+  get desciption(): string {
+    let value = this.get("desciption");
+    return value!.toString();
+  }
+
+  set desciption(value: string) {
+    this.set("desciption", Value.fromString(value));
+  }
+
+  get owner(): Bytes | null {
+    let value = this.get("owner");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set owner(value: Bytes | null) {
+    if (!value) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get collectionId(): BigInt {
+    let value = this.get("collectionId");
+    return value!.toBigInt();
+  }
+
+  set collectionId(value: BigInt) {
+    this.set("collectionId", Value.fromBigInt(value));
+  }
+
+  get collectionName(): string {
+    let value = this.get("collectionName");
+    return value!.toString();
+  }
+
+  set collectionName(value: string) {
+    this.set("collectionName", Value.fromString(value));
+  }
+}
+
+export class Collection extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Collection entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Collection must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Collection", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Collection | null {
+    return changetype<Collection | null>(store.get("Collection", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value!.toBytes();
+  }
+
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
+  }
+
+  get collectionName(): string {
+    let value = this.get("collectionName");
+    return value!.toString();
+  }
+
+  set collectionName(value: string) {
+    this.set("collectionName", Value.fromString(value));
+  }
+
+  get collectionInfo(): string {
+    let value = this.get("collectionInfo");
+    return value!.toString();
+  }
+
+  set collectionInfo(value: string) {
+    this.set("collectionInfo", Value.fromString(value));
+  }
+
+  get collectionUrl(): string {
+    let value = this.get("collectionUrl");
+    return value!.toString();
+  }
+
+  set collectionUrl(value: string) {
+    this.set("collectionUrl", Value.fromString(value));
+  }
+
+  get collectionCategory(): string {
+    let value = this.get("collectionCategory");
+    return value!.toString();
+  }
+
+  set collectionCategory(value: string) {
+    this.set("collectionCategory", Value.fromString(value));
+  }
+
+  get collectionVolume(): BigInt {
+    let value = this.get("collectionVolume");
+    return value!.toBigInt();
+  }
+
+  set collectionVolume(value: BigInt) {
+    this.set("collectionVolume", Value.fromBigInt(value));
   }
 }

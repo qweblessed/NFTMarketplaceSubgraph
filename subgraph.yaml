@@ -6,9 +6,9 @@ dataSources:
     name: marketplace
     network: goerli
     source:
-      address: "0x397eBFe623028F9AcC060Ae66b8d6a5DdB2cbef5"
+      address: "0xE58836C08b9219715903999DC8F5962AFD818108"
       abi: marketplace
-      startBlock: 7040147
+      startBlock: 7102892
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -41,10 +41,10 @@ dataSources:
           handler: handleFinishRentalForNFT
         - event: Listed(uint256,address,address,uint256,uint256)
           handler: handleListed
-        # - event: ListingOffer(uint256,address,uint256)
-        #   handler: handleListingOffer
-        # - event: ListingOfferCompleted(uint256,address)
-        #   handler: handleListingOfferCompleted
+        - event: ListingOffer(uint256,address,uint256)
+          handler: handleListingOffer
+        - event: ListingOfferCompleted(uint256,address)
+          handler: handleListingOfferCompleted
         - event: QuotedForStaking(uint256,address,address,uint256,uint256,uint256,uint256)
           handler: handleQuotedForStaking
         - event: Rental(uint256,address)
@@ -60,19 +60,34 @@ dataSources:
     name: nft
     network: goerli
     source:
-      address: "0x08eC8Fe503218573e28899B08C9Fa0316b5Ef8d3"
+      address: "0x482995DA0c3f0Fe629DB4dca956F95A81F88C4Ad"
       abi: nft
-      startBlock: 7040147
+      startBlock: 7134535
     mapping:
-      kind: ethereum/contract
+      kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Approval
+        # - Approval
+        # - ApprovalForAll
+        # - Transfer
+        - collectionTokenMint
+        - createdCollection
+        - verify
       abis:
         - name: nft
           file: ./abis/nft.json
       eventHandlers:
-        - event: Approval(indexed address,indexed address,indexed uint256)
-          handler: handleApproval
+        # - event: Approval(indexed address,indexed address,indexed uint256)
+        #   handler: handleApproval
+        # - event: ApprovalForAll(indexed address,indexed address,bool)
+        #   handler: handleApprovalForAll
+        # - event: Transfer(indexed address,indexed address,indexed uint256)
+        #   handler: handleTransfer
+        - event: collectionTokenMint(address,uint256,string,string,string,uint256)
+          handler: handlecollectionTokenMint
+        - event: createdCollection(uint8,string,uint256,string,string,address)
+          handler: handlecreatedCollection
+        - event: verify(uint256)
+          handler: handleverify
       file: ./src/mapping.ts
