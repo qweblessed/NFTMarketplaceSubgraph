@@ -750,4 +750,13 @@ export class Collection extends Entity {
   set collectionVolume(value: BigInt) {
     this.set("collectionVolume", Value.fromBigInt(value));
   }
+
+  get collectionItemsAmount(): BigInt {
+    let value = this.get("collectionItemsAmount");
+    return value!.toBigInt();
+  }
+
+  set collectionItemsAmount(value: BigInt) {
+    this.set("collectionItemsAmount", Value.fromBigInt(value));
+  }
 }

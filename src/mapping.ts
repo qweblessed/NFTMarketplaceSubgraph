@@ -257,6 +257,8 @@ export function handlecreatedCollection(event:createdCollection):void {
   collection.collectionUrl = event.params.url;
   collection.owner = event.params.owner
   collection.collectionVolume = new BigInt(0)
+  collection.collectionItemsAmount = new BigInt(0)
+
   collection.save()
 }
 
@@ -274,8 +276,12 @@ export function handlecollectionTokenMint(event:collectionTokenMint):void {
     nft.owner = event.params.to;
     nft.collectionId = event.params.collectionId;
     nft.collectionName = collection.collectionName;
+    
+    collection.collectionItemsAmount = collection.collectionItemsAmount.plus(BigInt.fromString("1"));
 
+    collection.save()
     nft.save()
 
 }
 
+  

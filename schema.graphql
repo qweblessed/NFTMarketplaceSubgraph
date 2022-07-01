@@ -108,4 +108,5 @@ type Collection @entity {
   collectionUrl:String!
   collectionCategory:Category!
   collectionVolume:BigInt!
+  collectionItemsAmount:BigInt!
 }
