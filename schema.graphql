@@ -27,6 +27,14 @@ enum Category{
   EXPLICIT
   }
 
+enum ActionType{
+  OFFER,
+  LIST,
+  RENT,
+  SALE,
+  MINT,
+  }
+
 type Listing @entity { 
   id: ID!
   seller: Bytes!
@@ -40,8 +48,6 @@ type Listing @entity {
   hasOffer:Boolean!
   collectionId:BigInt
   collectionName:String
-  # collectionName: String
-  # collectionId: BigInt
 
 }
 
@@ -58,8 +64,8 @@ type StakingListing @entity {
   premiumWei:BigInt!
   deadlineUTC:BigInt!
   hasOffer:Boolean!
-  # collectionName: String
-  # collectionId: BigInt
+  collectionName: String
+  collectionId: BigInt
 }
 
 type StakingOffer @entity {
@@ -95,10 +101,17 @@ type Token @entity {
   name:String!
   uri:String!
   desciption:String!
-  owner:Bytes
+  creator:Bytes!
+  owner:Bytes!
   collectionId: BigInt!
+  collection: Collection!
   collectionName: String!
+  price:BigInt
+  colloteral:BigInt
+  premiumWei:BigInt
+
 }
+
 
 type Collection @entity {
   id: ID!
@@ -109,4 +122,16 @@ type Collection @entity {
   collectionCategory:Category!
   collectionVolume:BigInt!
   collectionItemsAmount:BigInt!
+  tokens: [Token!]! @derivedFrom(field: "collection")
 }
+
+# type Statistic @entity {
+#   id:ID!
+#   from:Bytes!
+#   to:Bytes!
+#   price:BigInt
+#   colloteralWei:BigInt
+#   premiumWei:BigInt
+#   timeStamp:BigInt!
+#   actionType:ActionType!
+# }

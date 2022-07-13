@@ -6,12 +6,12 @@ dataSources:
     name: marketplace
     network: goerli
     source:
-      address: "0xE58836C08b9219715903999DC8F5962AFD818108"
+      address: "0x8beF102f693941418cBacDf1eB94c48338f2F260"
       abi: marketplace
-      startBlock: 7102892
+      startBlock: 7186437
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - CancelBid
@@ -60,12 +60,12 @@ dataSources:
     name: nft
     network: goerli
     source:
-      address: "0x482995DA0c3f0Fe629DB4dca956F95A81F88C4Ad"
+      address: "0x82907ED3c6adeA2F470066aBF614F3B38094bef2"
       abi: nft
-      startBlock: 7134535
+      startBlock: 7186443
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         # - Approval

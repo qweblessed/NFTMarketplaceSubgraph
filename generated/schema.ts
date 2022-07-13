@@ -303,6 +303,40 @@ export class StakingListing extends Entity {
   set hasOffer(value: boolean) {
     this.set("hasOffer", Value.fromBoolean(value));
   }
+
+  get collectionName(): string | null {
+    let value = this.get("collectionName");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set collectionName(value: string | null) {
+    if (!value) {
+      this.unset("collectionName");
+    } else {
+      this.set("collectionName", Value.fromString(<string>value));
+    }
+  }
+
+  get collectionId(): BigInt | null {
+    let value = this.get("collectionId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set collectionId(value: BigInt | null) {
+    if (!value) {
+      this.unset("collectionId");
+    } else {
+      this.set("collectionId", Value.fromBigInt(<BigInt>value));
+    }
+  }
 }
 
 export class StakingOffer extends Entity {
@@ -630,21 +664,22 @@ export class Token extends Entity {
     this.set("desciption", Value.fromString(value));
   }
 
-  get owner(): Bytes | null {
-    let value = this.get("owner");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toBytes();
-    }
+  get creator(): Bytes {
+    let value = this.get("creator");
+    return value!.toBytes();
   }
 
-  set owner(value: Bytes | null) {
-    if (!value) {
-      this.unset("owner");
-    } else {
-      this.set("owner", Value.fromBytes(<Bytes>value));
-    }
+  set creator(value: Bytes) {
+    this.set("creator", Value.fromBytes(value));
+  }
+
+  get owner(): Bytes {
+    let value = this.get("owner");
+    return value!.toBytes();
+  }
+
+  set owner(value: Bytes) {
+    this.set("owner", Value.fromBytes(value));
   }
 
   get collectionId(): BigInt {
@@ -656,6 +691,15 @@ export class Token extends Entity {
     this.set("collectionId", Value.fromBigInt(value));
   }
 
+  get collection(): string {
+    let value = this.get("collection");
+    return value!.toString();
+  }
+
+  set collection(value: string) {
+    this.set("collection", Value.fromString(value));
+  }
+
   get collectionName(): string {
     let value = this.get("collectionName");
     return value!.toString();
@@ -663,6 +707,57 @@ export class Token extends Entity {
 
   set collectionName(value: string) {
     this.set("collectionName", Value.fromString(value));
+  }
+
+  get price(): BigInt | null {
+    let value = this.get("price");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set price(value: BigInt | null) {
+    if (!value) {
+      this.unset("price");
+    } else {
+      this.set("price", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get colloteral(): BigInt | null {
+    let value = this.get("colloteral");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set colloteral(value: BigInt | null) {
+    if (!value) {
+      this.unset("colloteral");
+    } else {
+      this.set("colloteral", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get premiumWei(): BigInt | null {
+    let value = this.get("premiumWei");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set premiumWei(value: BigInt | null) {
+    if (!value) {
+      this.unset("premiumWei");
+    } else {
+      this.set("premiumWei", Value.fromBigInt(<BigInt>value));
+    }
   }
 }
 
@@ -758,5 +853,14 @@ export class Collection extends Entity {
 
   set collectionItemsAmount(value: BigInt) {
     this.set("collectionItemsAmount", Value.fromBigInt(value));
+  }
+
+  get tokens(): Array<string> {
+    let value = this.get("tokens");
+    return value!.toStringArray();
+  }
+
+  set tokens(value: Array<string>) {
+    this.set("tokens", Value.fromStringArray(value));
   }
 }

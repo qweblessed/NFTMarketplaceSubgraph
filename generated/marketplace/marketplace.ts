@@ -32,6 +32,24 @@ export class CancelBid__Params {
   }
 }
 
+export class CancelStaking extends ethereum.Event {
+  get params(): CancelStaking__Params {
+    return new CancelStaking__Params(this);
+  }
+}
+
+export class CancelStaking__Params {
+  _event: CancelStaking;
+
+  constructor(event: CancelStaking) {
+    this._event = event;
+  }
+
+  get stakingId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class FinishRentalForCollateral extends ethereum.Event {
   get params(): FinishRentalForCollateral__Params {
     return new FinishRentalForCollateral__Params(this);
@@ -65,6 +83,24 @@ export class FinishRentalForNFT__Params {
 
   get rentalId(): BigInt {
     return this._event.parameters[0].value.toBigInt();
+  }
+}
+
+export class Initialized extends ethereum.Event {
+  get params(): Initialized__Params {
+    return new Initialized__Params(this);
+  }
+}
+
+export class Initialized__Params {
+  _event: Initialized;
+
+  constructor(event: Initialized) {
+    this._event = event;
+  }
+
+  get version(): i32 {
+    return this._event.parameters[0].value.toI32();
   }
 }
 
@@ -784,6 +820,29 @@ export class marketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
+  _offerLastIndex(): BigInt {
+    let result = super.call(
+      "_offerLastIndex",
+      "_offerLastIndex():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try__offerLastIndex(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "_offerLastIndex",
+      "_offerLastIndex():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
   _stakings(param0: BigInt): marketplace___stakingsResult {
     let result = super.call(
       "_stakings",
@@ -950,20 +1009,20 @@ export class marketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  getContractBalance(): BigInt {
+  getContractBalanceV2(): BigInt {
     let result = super.call(
-      "getContractBalance",
-      "getContractBalance():(uint256)",
+      "getContractBalanceV2",
+      "getContractBalanceV2():(uint256)",
       []
     );
 
     return result[0].toBigInt();
   }
 
-  try_getContractBalance(): ethereum.CallResult<BigInt> {
+  try_getContractBalanceV2(): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "getContractBalance",
-      "getContractBalance():(uint256)",
+      "getContractBalanceV2",
+      "getContractBalanceV2():(uint256)",
       []
     );
     if (result.reverted) {
@@ -1293,60 +1352,6 @@ export class marketplace extends ethereum.SmartContract {
   }
 }
 
-export class ConstructorCall extends ethereum.Call {
-  get inputs(): ConstructorCall__Inputs {
-    return new ConstructorCall__Inputs(this);
-  }
-
-  get outputs(): ConstructorCall__Outputs {
-    return new ConstructorCall__Outputs(this);
-  }
-}
-
-export class ConstructorCall__Inputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-
-  get _platform(): Address {
-    return this._call.inputValues[0].value.toAddress();
-  }
-
-  get _token(): Address {
-    return this._call.inputValues[1].value.toAddress();
-  }
-
-  get _NFTTokenDistributionWhiteLister(): Address {
-    return this._call.inputValues[2].value.toAddress();
-  }
-
-  get _tokensDistributionAmount(): BigInt {
-    return this._call.inputValues[3].value.toBigInt();
-  }
-
-  get _maxCollateralEligibleForTokens(): BigInt {
-    return this._call.inputValues[4].value.toBigInt();
-  }
-
-  get _factory(): Address {
-    return this._call.inputValues[5].value.toAddress();
-  }
-
-  get _wETH(): Address {
-    return this._call.inputValues[6].value.toAddress();
-  }
-}
-
-export class ConstructorCall__Outputs {
-  _call: ConstructorCall;
-
-  constructor(call: ConstructorCall) {
-    this._call = call;
-  }
-}
-
 export class AcceptListingOfferCall extends ethereum.Call {
   get inputs(): AcceptListingOfferCall__Inputs {
     return new AcceptListingOfferCall__Inputs(this);
@@ -1377,6 +1382,40 @@ export class AcceptListingOfferCall__Outputs {
   _call: AcceptListingOfferCall;
 
   constructor(call: AcceptListingOfferCall) {
+    this._call = call;
+  }
+}
+
+export class AcceptOfferForNotListedTokenCall extends ethereum.Call {
+  get inputs(): AcceptOfferForNotListedTokenCall__Inputs {
+    return new AcceptOfferForNotListedTokenCall__Inputs(this);
+  }
+
+  get outputs(): AcceptOfferForNotListedTokenCall__Outputs {
+    return new AcceptOfferForNotListedTokenCall__Outputs(this);
+  }
+}
+
+export class AcceptOfferForNotListedTokenCall__Inputs {
+  _call: AcceptOfferForNotListedTokenCall;
+
+  constructor(call: AcceptOfferForNotListedTokenCall) {
+    this._call = call;
+  }
+
+  get offerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get tokenContract(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class AcceptOfferForNotListedTokenCall__Outputs {
+  _call: AcceptOfferForNotListedTokenCall;
+
+  constructor(call: AcceptOfferForNotListedTokenCall) {
     this._call = call;
   }
 }
@@ -1605,6 +1644,36 @@ export class CancelListingOfferCall__Outputs {
   }
 }
 
+export class CancelStakingOfferCall extends ethereum.Call {
+  get inputs(): CancelStakingOfferCall__Inputs {
+    return new CancelStakingOfferCall__Inputs(this);
+  }
+
+  get outputs(): CancelStakingOfferCall__Outputs {
+    return new CancelStakingOfferCall__Outputs(this);
+  }
+}
+
+export class CancelStakingOfferCall__Inputs {
+  _call: CancelStakingOfferCall;
+
+  constructor(call: CancelStakingOfferCall) {
+    this._call = call;
+  }
+
+  get listingId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class CancelStakingOfferCall__Outputs {
+  _call: CancelStakingOfferCall;
+
+  constructor(call: CancelStakingOfferCall) {
+    this._call = call;
+  }
+}
+
 export class ClaimCollateralCall extends ethereum.Call {
   get inputs(): ClaimCollateralCall__Inputs {
     return new ClaimCollateralCall__Inputs(this);
@@ -1695,6 +1764,90 @@ export class ClaimTokensRentCall__Outputs {
   }
 }
 
+export class DenyOfferForNotListedTokenCall extends ethereum.Call {
+  get inputs(): DenyOfferForNotListedTokenCall__Inputs {
+    return new DenyOfferForNotListedTokenCall__Inputs(this);
+  }
+
+  get outputs(): DenyOfferForNotListedTokenCall__Outputs {
+    return new DenyOfferForNotListedTokenCall__Outputs(this);
+  }
+}
+
+export class DenyOfferForNotListedTokenCall__Inputs {
+  _call: DenyOfferForNotListedTokenCall;
+
+  constructor(call: DenyOfferForNotListedTokenCall) {
+    this._call = call;
+  }
+
+  get offerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class DenyOfferForNotListedTokenCall__Outputs {
+  _call: DenyOfferForNotListedTokenCall;
+
+  constructor(call: DenyOfferForNotListedTokenCall) {
+    this._call = call;
+  }
+}
+
+export class InitializeCall extends ethereum.Call {
+  get inputs(): InitializeCall__Inputs {
+    return new InitializeCall__Inputs(this);
+  }
+
+  get outputs(): InitializeCall__Outputs {
+    return new InitializeCall__Outputs(this);
+  }
+}
+
+export class InitializeCall__Inputs {
+  _call: InitializeCall;
+
+  constructor(call: InitializeCall) {
+    this._call = call;
+  }
+
+  get _platform(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get _token(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+
+  get _NFTTokenDistributionWhiteLister(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+
+  get _tokensDistributionAmount(): BigInt {
+    return this._call.inputValues[3].value.toBigInt();
+  }
+
+  get _maxCollateralEligibleForTokens(): BigInt {
+    return this._call.inputValues[4].value.toBigInt();
+  }
+
+  get _factory(): Address {
+    return this._call.inputValues[5].value.toAddress();
+  }
+
+  get _wETH(): Address {
+    return this._call.inputValues[6].value.toAddress();
+  }
+}
+
+export class InitializeCall__Outputs {
+  _call: InitializeCall;
+
+  constructor(call: InitializeCall) {
+    this._call = call;
+  }
+}
+
 export class ListingOfferCall extends ethereum.Call {
   get inputs(): ListingOfferCall__Inputs {
     return new ListingOfferCall__Inputs(this);
@@ -1721,6 +1874,44 @@ export class ListingOfferCall__Outputs {
   _call: ListingOfferCall;
 
   constructor(call: ListingOfferCall) {
+    this._call = call;
+  }
+}
+
+export class OfferForNotListedTokenCall extends ethereum.Call {
+  get inputs(): OfferForNotListedTokenCall__Inputs {
+    return new OfferForNotListedTokenCall__Inputs(this);
+  }
+
+  get outputs(): OfferForNotListedTokenCall__Outputs {
+    return new OfferForNotListedTokenCall__Outputs(this);
+  }
+}
+
+export class OfferForNotListedTokenCall__Inputs {
+  _call: OfferForNotListedTokenCall;
+
+  constructor(call: OfferForNotListedTokenCall) {
+    this._call = call;
+  }
+
+  get collectionId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+
+  get tokenId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get tokenContract(): Address {
+    return this._call.inputValues[2].value.toAddress();
+  }
+}
+
+export class OfferForNotListedTokenCall__Outputs {
+  _call: OfferForNotListedTokenCall;
+
+  constructor(call: OfferForNotListedTokenCall) {
     this._call = call;
   }
 }

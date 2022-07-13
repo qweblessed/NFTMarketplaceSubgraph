@@ -22,16 +22,20 @@ import {
 } from "../generated/marketplace/marketplace"
 
 import {Approval, nft as Nftcontract} from "../generated/nft/nft"
-import {BuyingOffer, Listing,StakingListing,StakingOffer,Collection, Token,} from "../generated/schema"
+import {BuyingOffer, Listing,StakingListing,StakingOffer,Collection, Token,
+  //  Statistic,
+  } from "../generated/schema"
 import { nft, createdCollection,collectionTokenMint } from "../generated/nft/nft"
-
-enum ListingStatus { ACTIVE, SOLD, CANCELLED }
 
 export function handleListed(event: ListedEvent):void {
 
   const listingId = event.params.listingId
+  const blockTimestamp = event.block.timestamp
 
-  const stat = new Listing(listingId.toString());
+  let stat = Listing.load(event.transaction.from.toHex());
+  if(!stat) {
+    stat = new Listing(listingId.toString());
+  }
   stat.seller = event.params.seller;
   stat.token = event.params.token;
   stat.tokenId = event.params.tokenId;
@@ -46,23 +50,38 @@ export function handleListed(event: ListedEvent):void {
   stat.hasOffer = false;
 
   const tokenAddress = event.params.token.toHexString();
-  if(tokenAddress == "0x482995da0c3f0fe629db4dca956f95a81f88c4ad"){
+  
+  if(tokenAddress == '0x82907ed3c6adea2f470066abf614f3b38094bef2'){
     
-  const token = Token.load(event.params.tokenId.toString())
+    const token = Token.load(event.params.tokenId.toString())
   
     if(!token) throw new Error('!collectionId in token')
+    
     stat.collectionId = token.collectionId
     stat.collectionName = token.collectionName
+    
+    token.price = event.params.price
+    token.save()
   } 
 
   stat.save();
 
+  // const statistic = new Statistic(listingId.plus(blockTimestamp).toString())
+
+  // statistic.actionType = "LIST"
+  // statistic.from = event.params.seller//
+  // statistic.to = event.params.seller//
+  // statistic.price = event.params.price
+  // statistic.timeStamp = event.block.timestamp
+  
+  // statistic.save()
 }
 
 export function handleQuotedForStaking(event: QuotedForStakingEvent):void {
 
   const stakingId = event.params.stakingId
-  
+  const blockTimestamp = event.block.timestamp
+
   const stat = new StakingListing(stakingId.toString());
 
   stat.seller = event.params.maker;//seller
@@ -80,9 +99,37 @@ export function handleQuotedForStaking(event: QuotedForStakingEvent):void {
   stat.tokenName =nftContract.tokenMetadata(event.params.tokenId).value1.toString()//tokenName
   stat.tokenDescription = nftContract.tokenMetadata(event.params.tokenId).value0.toString()//tokenDescription
 
+  const tokenAddress = event.params.token.toHexString();
  
+  if(tokenAddress == '0x82907ed3c6adea2f470066abf614f3b38094bef2'){
+    
+    const token = Token.load(event.params.tokenId.toString())
+  
+    if(!token) throw new Error('!collectionId in token')
+    log.info('true', ['true'])
+
+    stat.collectionId = token.collectionId
+    stat.collectionName = token.collectionName
+    
+    token.colloteral = event.params.collateral
+    token.premiumWei = event.params.premium
+    token.save()
+  } 
+
   stat.save();
 
+  
+
+  // const statistic = new Statistic(stakingId.plus(blockTimestamp).toString())
+
+  // statistic.actionType = "RENT"
+  // statistic.from = event.params.maker//
+  // statistic.to = event.params.maker//
+  // statistic.colloteralWei = event.params.collateral
+  // statistic.premiumWei = event.params.premium
+  // statistic.timeStamp = event.block.timestamp
+  
+  // statistic.save()
 }
 
 export function handleCancelBid(event: CancelBid): void {
@@ -116,20 +163,24 @@ export function handleSale(event: Sale): void {
   
   const tokenAddress = event.params.token.toHexString();
 
-  if(tokenAddress == "0x482995da0c3f0fe629db4dca956f95a81f88c4ad"){
+  if(tokenAddress == "0x82907ed3c6adea2f470066abf614f3b38094bef2"){
     
   const token = Token.load(event.params.tokenId.toString())
   
     if(!token) throw new Error('!collectionId in token')
 
-    const collectionId = token.collectionId
+      const collectionId = token.collectionId
 
-    const collection = Collection.load(collectionId.toString())
-    if(!collection) throw new Error('!collection')
-    if(!collection.collectionVolume) throw new Error('!collection')
+      const collection = Collection.load(collectionId.toString())
 
-    collection.collectionVolume = collection.collectionVolume.plus(event.params.price)
-    collection.save()
+      if(!collection) throw new Error('!collection')
+      if(!collection.collectionVolume) throw new Error('!collection')
+
+      collection.collectionVolume = collection.collectionVolume.plus(event.params.price)
+      collection.save()
+
+      token.owner = event.params.buyer
+      token.save()
   } 
 
   stat.save();
@@ -155,6 +206,7 @@ export function handleStakingOffered(event:StakingOffered): void {
   stat.tokenName = stakingListing.tokenName
   stat.tokenAdress = stakingListing.token
   stat.offerStatus = "ACTIVE"
+
   staking.hasOffer = true
 
   staking.save()
@@ -169,77 +221,81 @@ export function handleListingOffer(event:ListingOffer): void {
 
   if (!listing) throw new Error('Listing entity is not found');
 
-    stat.taker = event.params.buyer
-    stat.newOfferedPrice = event.params.amount
-    stat.listingId = event.params.listingId
-    stat.owner = listing.seller
-    stat.tokenURI = listing.tokenURI
-    stat.tokenId = listing.tokenId
-    stat.tokenName = listing.tokenName
-    stat.tokenAdress = listing.token
-    stat.offerStatus = "ACTIVE"
-    listing.hasOffer = true;
-  
-    listing.save()
-    stat.save()
+  stat.taker = event.params.buyer
+  stat.newOfferedPrice = event.params.amount
+  stat.listingId = event.params.listingId
+  stat.owner = listing.seller
+  stat.tokenURI = listing.tokenURI
+  stat.tokenId = listing.tokenId
+  stat.tokenName = listing.tokenName
+  stat.tokenAdress = listing.token
+  stat.offerStatus = "ACTIVE"
+
+  listing.hasOffer = true;
+  if(listing.listingStatus){
+     listing.listingStatus = "ACTIVE"
+  }
+  listing.save()
+  stat.save()
 }
 
 export function handleRental(event:Rental): void {
   const stakingId = event.params.rentalId
-  const listing = StakingListing.load(stakingId.toString());
+  const staking = StakingListing.load(stakingId.toString());
 
-  if (!listing) throw new Error('Listing entity is not found');
+  if (!staking) throw new Error('Listing entity is not found');
 
-  const stat = new StakingListing(stakingId.toString());
+  staking.stakingStatus = "RENTED"
+  staking.seller = event.params.taker;
+  staking.hasOffer = false;
 
-  stat.stakingStatus = "RENTED"
-  stat.seller = event.params.taker;
-  stat.hasOffer = false;
-
-  stat.save();
+  staking.save();
 }
 
 export function handleListingOfferCompleted(event:ListingOfferCompleted):void{//complete
   const listingId = event.params.listingId
-  const statListingOffer = new BuyingOffer(listingId.toString());
+
+  const statListingOffer = BuyingOffer.load(listingId.toString());
   const listing = Listing.load(listingId.toString());
 
   if (!listing) throw new Error('Listing entity is not found');
+  if (!statListingOffer) throw new Error('statListingOffer entity is not found');
 
-    statListingOffer.offerStatus = "ACCEPTED"
-    listing.listingStatus = "ACCEPTED"
+  statListingOffer.offerStatus = "ACCEPTED"
+  listing.listingStatus = "SOLD"
 
-    listing.seller = event.params.buyer;
-    listing.hasOffer = false;
+  listing.seller = event.params.buyer;
+  listing.hasOffer = false;
 
-    statListingOffer.save()
-    listing.save()
+  statListingOffer.save()
+  listing.save()
 }
 
 export function handleStakingOfferAccepted(event:StakingOfferAccepted): void {
 
   const stakingId = event.params.stakingId
+
   const staking = StakingListing.load(stakingId.toString());
+  const offer = StakingOffer.load(stakingId.toString());
 
-  if (!staking) throw new Error('Listing entity is not found');
+  if(!staking) throw new Error('!staking entity is not found');
+  if(!offer) throw new Error('!offer entity is not found');
 
-  const stakingParams = new StakingListing(stakingId.toString());
-  const offer = new StakingOffer(stakingId.toString());
-
-  stakingParams.stakingStatus = "RENTED";
+  staking.stakingStatus = "RENTED";
   offer.offerStatus = "ACCEPTED";
 
-  stakingParams.seller = event.params.taker;
-  stakingParams.hasOffer = false;
+  staking.seller = event.params.taker;
+  staking.hasOffer = false;
 
-  stakingParams.save();
+  staking.save();
   offer.save()
 }
 
 export function handlecreatedCollection(event:createdCollection):void {
+
   const collectionID = event.params.collectionId;
   const collection = new Collection(collectionID.toString());
-
+  
   switch(event.params.param0){
     case 0 : {collection.collectionCategory = "ARTWORK"; break;}
     case 1 : {collection.collectionCategory = "SPORTS"; break;}
@@ -252,19 +308,22 @@ export function handlecreatedCollection(event:createdCollection):void {
       break; 
    } 
   }
+
   collection.collectionInfo = event.params.information;
   collection.collectionName = event.params.collectionName;
   collection.collectionUrl = event.params.url;
   collection.owner = event.params.owner
   collection.collectionVolume = new BigInt(0)
   collection.collectionItemsAmount = new BigInt(0)
+  
 
   collection.save()
 }
 
 export function handlecollectionTokenMint(event:collectionTokenMint):void {
     const collectionID = event.params.collectionId;
-    const collection = Collection.load(collectionID.toString());
+    const collection = Collection.load(collectionID.toString())!;
+
     if (!collection) throw new Error('Collection entity is not found');
 
     const tokenId = event.params.tokenId;
@@ -274,14 +333,18 @@ export function handlecollectionTokenMint(event:collectionTokenMint):void {
     nft.name = event.params.name;
     nft.desciption = event.params.description;
     nft.owner = event.params.to;
-    nft.collectionId = event.params.collectionId;
+    nft.creator = event.params.to;
+    nft.collection = event.params.collectionId.toString()
+    nft.collectionId = event.params.collectionId
     nft.collectionName = collection.collectionName;
-    
-    collection.collectionItemsAmount = collection.collectionItemsAmount.plus(BigInt.fromString("1"));
 
-    collection.save()
     nft.save()
 
-}
-
+    if(nft.id == null)throw new Error('id entity is not found');
+    
+    collection.collectionItemsAmount = collection.collectionItemsAmount.plus(BigInt.fromString("1"));
+    
+    collection.save()
   
+
+} 
