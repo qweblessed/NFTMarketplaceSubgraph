@@ -186,6 +186,40 @@ export class ListingOfferCompleted__Params {
   }
 }
 
+export class OfferForNotListed extends ethereum.Event {
+  get params(): OfferForNotListed__Params {
+    return new OfferForNotListed__Params(this);
+  }
+}
+
+export class OfferForNotListed__Params {
+  _event: OfferForNotListed;
+
+  constructor(event: OfferForNotListed) {
+    this._event = event;
+  }
+
+  get status(): i32 {
+    return this._event.parameters[0].value.toI32();
+  }
+
+  get offerId(): BigInt {
+    return this._event.parameters[1].value.toBigInt();
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get collectionId(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
+
+  get amount(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
+}
+
 export class QuotedForStaking extends ethereum.Event {
   get params(): QuotedForStaking__Params {
     return new QuotedForStaking__Params(this);

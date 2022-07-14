@@ -864,3 +864,71 @@ export class Collection extends Entity {
     this.set("tokens", Value.fromStringArray(value));
   }
 }
+
+export class OfferForUserNft extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save OfferForUserNft entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type OfferForUserNft must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("OfferForUserNft", id.toString(), this);
+    }
+  }
+
+  static load(id: string): OfferForUserNft | null {
+    return changetype<OfferForUserNft | null>(store.get("OfferForUserNft", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get offerId(): BigInt {
+    let value = this.get("offerId");
+    return value!.toBigInt();
+  }
+
+  set offerId(value: BigInt) {
+    this.set("offerId", Value.fromBigInt(value));
+  }
+
+  get collectionId(): BigInt {
+    let value = this.get("collectionId");
+    return value!.toBigInt();
+  }
+
+  set collectionId(value: BigInt) {
+    this.set("collectionId", Value.fromBigInt(value));
+  }
+
+  get offeredAmount(): BigInt {
+    let value = this.get("offeredAmount");
+    return value!.toBigInt();
+  }
+
+  set offeredAmount(value: BigInt) {
+    this.set("offeredAmount", Value.fromBigInt(value));
+  }
+
+  get offerStatus(): string {
+    let value = this.get("offerStatus");
+    return value!.toString();
+  }
+
+  set offerStatus(value: string) {
+    this.set("offerStatus", Value.fromString(value));
+  }
+}

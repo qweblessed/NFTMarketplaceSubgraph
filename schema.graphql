@@ -33,7 +33,13 @@ enum ActionType{
   RENT,
   SALE,
   MINT,
-  }
+}
+
+enum OfferForUserNftStatus{
+  ACTIVE,
+  ACCEPTED,
+  DENIED
+}
 
 type Listing @entity { 
   id: ID!
@@ -112,7 +118,6 @@ type Token @entity {
 
 }
 
-
 type Collection @entity {
   id: ID!
   owner: Bytes!
@@ -124,7 +129,17 @@ type Collection @entity {
   collectionItemsAmount:BigInt!
   tokens: [Token!]! @derivedFrom(field: "collection")
 }
+# event OfferForNotListed(OfferStatus status, uint256 offerId,uint256 tokenId, uint256 collectionId, uint256 amount);
 
+type OfferForUserNft @entity {
+  id: ID!
+  offerId: BigInt!
+  collectionId:BigInt!
+  offeredAmount:BigInt!
+  offerStatus:OfferForUserNftStatus!
+  from:Bytes
+  to:Bytes
+}
 # type Statistic @entity {
 #   id:ID!
 #   from:Bytes!

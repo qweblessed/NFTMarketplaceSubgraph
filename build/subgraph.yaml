@@ -27,6 +27,7 @@ dataSources:
         - StakingOffered
         - Token
         - User
+        - OfferForNotListed
       abis:
         - name: marketplace
           file: marketplace/abis/marketplace.json
@@ -55,6 +56,8 @@ dataSources:
           handler: handleStakingOfferAccepted
         - event: StakingOffered(uint256,address,uint256,uint256)
           handler: handleStakingOffered
+        - event: OfferForNotListed(uint8,uint256,uint256,uint256,uint256)
+          handler: handleOfferForNotListed
       file: marketplace/marketplace.wasm
   - kind: ethereum
     name: nft

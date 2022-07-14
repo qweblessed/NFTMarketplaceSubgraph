@@ -17,12 +17,12 @@ import {
   Rental,
   Sale,
   StakingOfferAccepted,
-  StakingOffered,
+  StakingOffered,OfferForNotListed
 
 } from "../generated/marketplace/marketplace"
 
 import {Approval, nft as Nftcontract} from "../generated/nft/nft"
-import {BuyingOffer, Listing,StakingListing,StakingOffer,Collection, Token,
+import {BuyingOffer, Listing,StakingListing,StakingOffer,Collection, Token,OfferForUserNft
   //  Statistic,
   } from "../generated/schema"
 import { nft, createdCollection,collectionTokenMint } from "../generated/nft/nft"
@@ -48,7 +48,7 @@ export function handleListed(event: ListedEvent):void {
   stat.tokenName = nftContract.tokenMetadata(event.params.tokenId).value1.toString()
   stat.tokenDescription = nftContract.tokenMetadata(event.params.tokenId).value0.toString()
   stat.hasOffer = false;
-
+  
   const tokenAddress = event.params.token.toHexString();
   
   if(tokenAddress == '0x82907ed3c6adea2f470066abf614f3b38094bef2'){
@@ -348,3 +348,30 @@ export function handlecollectionTokenMint(event:collectionTokenMint):void {
   
 
 } 
+
+export function handleOfferForNotListed(event:OfferForNotListed):void{
+    const offerId = event.params.offerId
+    const offerStats = new OfferForUserNft(offerId.toString())
+    
+    offerStats.collectionId = event.params.collectionId
+    offerStats.offerId = event.params.offerId
+    
+     log.info(`Info!: ${event.params.status}`, [])
+    if(event.params.status == 0){
+      offerStats.offerStatus = 'ACTIVE' 
+      offerStats.offeredAmount = event.params.amount
+    }
+
+    if(event.params.status == 1){
+      offerStats.offerStatus = 'ACCEPTED' 
+      offerStats.offeredAmount = new BigInt(0)
+    }
+
+    if(event.params.status == 2){
+      offerStats.offerStatus = 'DENIED' 
+      offerStats.offeredAmount = new BigInt(0)
+    }
+
+    offerStats.save()
+
+}

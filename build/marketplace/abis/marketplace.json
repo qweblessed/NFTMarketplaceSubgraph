@@ -1,46 +1,5 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "_platform",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_token",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_NFTTokenDistributionWhiteLister",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_tokensDistributionAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_maxCollateralEligibleForTokens",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "_factory",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_wETH",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -57,6 +16,19 @@
       }
     ],
     "name": "CancelBid",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "CancelStaking",
     "type": "event"
   },
   {
@@ -83,6 +55,19 @@
       }
     ],
     "name": "FinishRentalForNFT",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "version",
+        "type": "uint8"
+      }
+    ],
+    "name": "Initialized",
     "type": "event"
   },
   {
@@ -164,6 +149,43 @@
       }
     ],
     "name": "ListingOfferCompleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "enum MarketplaceV5.OfferStatus",
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "collectionId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "OfferForNotListed",
     "type": "event"
   },
   {
@@ -364,7 +386,7 @@
     "name": "_listings",
     "outputs": [
       {
-        "internalType": "enum Marketplace.ListingStatus",
+        "internalType": "enum MarketplaceV5.ListingStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -426,6 +448,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "_offerLastIndex",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -436,7 +471,7 @@
     "name": "_stakings",
     "outputs": [
       {
-        "internalType": "enum Marketplace.StakeStatus",
+        "internalType": "enum MarketplaceV5.StakeStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -550,6 +585,24 @@
       }
     ],
     "name": "acceptListingOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      }
+    ],
+    "name": "acceptOfferForNotListedToken",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -710,6 +763,19 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelStakingOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "stakingId",
         "type": "uint256"
       }
@@ -765,6 +831,19 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "denyOfferForNotListedToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "factory",
     "outputs": [
@@ -779,7 +858,7 @@
   },
   {
     "inputs": [],
-    "name": "getContractBalance",
+    "name": "getContractBalanceV2",
     "outputs": [
       {
         "internalType": "uint256",
@@ -803,7 +882,7 @@
       {
         "components": [
           {
-            "internalType": "enum Marketplace.ListingStatus",
+            "internalType": "enum MarketplaceV5.ListingStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -848,7 +927,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct Marketplace.Listing",
+        "internalType": "struct MarketplaceV5.Listing",
         "name": "",
         "type": "tuple"
       }
@@ -869,7 +948,7 @@
       {
         "components": [
           {
-            "internalType": "enum Marketplace.StakeStatus",
+            "internalType": "enum MarketplaceV5.StakeStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -929,12 +1008,55 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct Marketplace.Staking",
+        "internalType": "struct MarketplaceV5.Staking",
         "name": "",
         "type": "tuple"
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_platform",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_NFTTokenDistributionWhiteLister",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tokensDistributionAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_maxCollateralEligibleForTokens",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_factory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_wETH",
+        "type": "address"
+      }
+    ],
+    "name": "initialize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -1063,6 +1185,29 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "collectionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      }
+    ],
+    "name": "offerForNotListedToken",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "stakingId",
         "type": "uint256"
       },
@@ -1101,7 +1246,7 @@
     "name": "platform",
     "outputs": [
       {
-        "internalType": "address payable",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }
@@ -1296,5 +1441,9 @@
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
   }
 ]
