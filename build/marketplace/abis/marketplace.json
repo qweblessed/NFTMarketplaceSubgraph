@@ -156,7 +156,7 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "enum MarketplaceV5.OfferStatus",
+        "internalType": "enum MarketplaceV6.OfferStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -183,6 +183,12 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "actor",
+        "type": "address"
       }
     ],
     "name": "OfferForNotListed",
@@ -386,7 +392,7 @@
     "name": "_listings",
     "outputs": [
       {
-        "internalType": "enum MarketplaceV5.ListingStatus",
+        "internalType": "enum MarketplaceV6.ListingStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -471,7 +477,7 @@
     "name": "_stakings",
     "outputs": [
       {
-        "internalType": "enum MarketplaceV5.StakeStatus",
+        "internalType": "enum MarketplaceV6.StakeStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -763,6 +769,19 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelOfferForNotListedToken",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "listingId",
         "type": "uint256"
       }
@@ -882,7 +901,7 @@
       {
         "components": [
           {
-            "internalType": "enum MarketplaceV5.ListingStatus",
+            "internalType": "enum MarketplaceV6.ListingStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -927,7 +946,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct MarketplaceV5.Listing",
+        "internalType": "struct MarketplaceV6.Listing",
         "name": "",
         "type": "tuple"
       }
@@ -948,7 +967,7 @@
       {
         "components": [
           {
-            "internalType": "enum MarketplaceV5.StakeStatus",
+            "internalType": "enum MarketplaceV6.StakeStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -1008,7 +1027,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct MarketplaceV5.Staking",
+        "internalType": "struct MarketplaceV6.Staking",
         "name": "",
         "type": "tuple"
       }

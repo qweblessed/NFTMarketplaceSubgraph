@@ -206,6 +206,23 @@ export class StakingListing extends Entity {
     this.set("seller", Value.fromBytes(value));
   }
 
+  get taker(): Bytes | null {
+    let value = this.get("taker");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set taker(value: Bytes | null) {
+    if (!value) {
+      this.unset("taker");
+    } else {
+      this.set("taker", Value.fromBytes(<Bytes>value));
+    }
+  }
+
   get token(): Bytes {
     let value = this.get("token");
     return value!.toBytes();
@@ -655,13 +672,30 @@ export class Token extends Entity {
     this.set("uri", Value.fromString(value));
   }
 
-  get desciption(): string {
-    let value = this.get("desciption");
+  get description(): string {
+    let value = this.get("description");
     return value!.toString();
   }
 
-  set desciption(value: string) {
-    this.set("desciption", Value.fromString(value));
+  set description(value: string) {
+    this.set("description", Value.fromString(value));
+  }
+
+  get tokenAdress(): string | null {
+    let value = this.get("tokenAdress");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set tokenAdress(value: string | null) {
+    if (!value) {
+      this.unset("tokenAdress");
+    } else {
+      this.set("tokenAdress", Value.fromString(<string>value));
+    }
   }
 
   get creator(): Bytes {
@@ -758,6 +792,49 @@ export class Token extends Entity {
     } else {
       this.set("premiumWei", Value.fromBigInt(<BigInt>value));
     }
+  }
+
+  get listingId(): string | null {
+    let value = this.get("listingId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set listingId(value: string | null) {
+    if (!value) {
+      this.unset("listingId");
+    } else {
+      this.set("listingId", Value.fromString(<string>value));
+    }
+  }
+
+  get stakingId(): string | null {
+    let value = this.get("stakingId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set stakingId(value: string | null) {
+    if (!value) {
+      this.unset("stakingId");
+    } else {
+      this.set("stakingId", Value.fromString(<string>value));
+    }
+  }
+
+  get hasOffer(): boolean {
+    let value = this.get("hasOffer");
+    return value!.toBoolean();
+  }
+
+  set hasOffer(value: boolean) {
+    this.set("hasOffer", Value.fromBoolean(value));
   }
 }
 
@@ -930,5 +1007,50 @@ export class OfferForUserNft extends Entity {
 
   set offerStatus(value: string) {
     this.set("offerStatus", Value.fromString(value));
+  }
+
+  get from(): Bytes {
+    let value = this.get("from");
+    return value!.toBytes();
+  }
+
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
+  }
+
+  get to(): Bytes {
+    let value = this.get("to");
+    return value!.toBytes();
+  }
+
+  set to(value: Bytes) {
+    this.set("to", Value.fromBytes(value));
+  }
+
+  get tokenId(): string {
+    let value = this.get("tokenId");
+    return value!.toString();
+  }
+
+  set tokenId(value: string) {
+    this.set("tokenId", Value.fromString(value));
+  }
+
+  get tokenUri(): string {
+    let value = this.get("tokenUri");
+    return value!.toString();
+  }
+
+  set tokenUri(value: string) {
+    this.set("tokenUri", Value.fromString(value));
+  }
+
+  get tokenName(): string {
+    let value = this.get("tokenName");
+    return value!.toString();
+  }
+
+  set tokenName(value: string) {
+    this.set("tokenName", Value.fromString(value));
   }
 }

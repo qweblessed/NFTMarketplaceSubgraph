@@ -38,7 +38,8 @@ enum ActionType{
 enum OfferForUserNftStatus{
   ACTIVE,
   ACCEPTED,
-  DENIED
+  DENIED,
+  CANCELED
 }
 
 type Listing @entity { 
@@ -60,6 +61,7 @@ type Listing @entity {
 type StakingListing @entity { 
   id: ID!
   seller: Bytes!
+  taker:Bytes
   token: Bytes!
   tokenId: BigInt!
   tokenURI: String
@@ -72,6 +74,7 @@ type StakingListing @entity {
   hasOffer:Boolean!
   collectionName: String
   collectionId: BigInt
+  
 }
 
 type StakingOffer @entity {
@@ -106,7 +109,8 @@ type Token @entity {
   id: ID!
   name:String!
   uri:String!
-  desciption:String!
+  description:String!
+  tokenAdress:String
   creator:Bytes!
   owner:Bytes!
   collectionId: BigInt!
@@ -114,8 +118,10 @@ type Token @entity {
   collectionName: String!
   price:BigInt
   colloteral:BigInt
-  premiumWei:BigInt
-
+  premiumWei:BigInt 
+  listingId:String
+  stakingId:String
+  hasOffer:Boolean!
 }
 
 type Collection @entity {
@@ -133,17 +139,13 @@ type Collection @entity {
 
 type OfferForUserNft @entity {
   id: ID!
+  offerId: BigInt!
   collectionId:BigInt!
   offeredAmount:BigInt!
   offerStatus:OfferForUserNftStatus!
+  from:Bytes!
+  to:Bytes!
+  tokenId:String!
+  tokenUri:String!
+  tokenName:String!
 }
-# type Statistic @entity {
-#   id:ID!
-#   from:Bytes!
-#   to:Bytes!
-#   price:BigInt
-#   colloteralWei:BigInt
-#   premiumWei:BigInt
-#   timeStamp:BigInt!
-#   actionType:ActionType!
-# }

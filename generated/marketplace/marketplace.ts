@@ -218,6 +218,10 @@ export class OfferForNotListed__Params {
   get amount(): BigInt {
     return this._event.parameters[4].value.toBigInt();
   }
+
+  get actor(): Address {
+    return this._event.parameters[5].value.toAddress();
+  }
 }
 
 export class QuotedForStaking extends ethereum.Event {
@@ -1674,6 +1678,36 @@ export class CancelListingOfferCall__Outputs {
   _call: CancelListingOfferCall;
 
   constructor(call: CancelListingOfferCall) {
+    this._call = call;
+  }
+}
+
+export class CancelOfferForNotListedTokenCall extends ethereum.Call {
+  get inputs(): CancelOfferForNotListedTokenCall__Inputs {
+    return new CancelOfferForNotListedTokenCall__Inputs(this);
+  }
+
+  get outputs(): CancelOfferForNotListedTokenCall__Outputs {
+    return new CancelOfferForNotListedTokenCall__Outputs(this);
+  }
+}
+
+export class CancelOfferForNotListedTokenCall__Inputs {
+  _call: CancelOfferForNotListedTokenCall;
+
+  constructor(call: CancelOfferForNotListedTokenCall) {
+    this._call = call;
+  }
+
+  get offerId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class CancelOfferForNotListedTokenCall__Outputs {
+  _call: CancelOfferForNotListedTokenCall;
+
+  constructor(call: CancelOfferForNotListedTokenCall) {
     this._call = call;
   }
 }

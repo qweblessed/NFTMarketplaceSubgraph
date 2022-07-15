@@ -56,7 +56,7 @@ dataSources:
           handler: handleStakingOfferAccepted
         - event: StakingOffered(uint256,address,uint256,uint256)
           handler: handleStakingOffered
-        - event: OfferForNotListed(uint8,uint256,uint256,uint256,uint256)
+        - event: OfferForNotListed(uint8,uint256,uint256,uint256,uint256,address)
           handler: handleOfferForNotListed
       file: marketplace/marketplace.wasm
   - kind: ethereum
