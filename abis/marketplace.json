@@ -350,6 +350,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "stopRentalEvent",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "NFTTokenDistributionWhiteLister",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],

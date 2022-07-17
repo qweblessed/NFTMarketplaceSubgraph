@@ -374,6 +374,24 @@ export class StakingOffered__Params {
   }
 }
 
+export class stopRentalEvent extends ethereum.Event {
+  get params(): stopRentalEvent__Params {
+    return new stopRentalEvent__Params(this);
+  }
+}
+
+export class stopRentalEvent__Params {
+  _event: stopRentalEvent;
+
+  constructor(event: stopRentalEvent) {
+    this._event = event;
+  }
+
+  get stakingId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+}
+
 export class marketplace___listingsResult {
   value0: i32;
   value1: Address;

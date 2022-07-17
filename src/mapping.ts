@@ -17,7 +17,7 @@ import {
   Rental,
   Sale,
   StakingOfferAccepted,
-  StakingOffered,OfferForNotListed
+  StakingOffered,OfferForNotListed, stopRentalEvent
 
 } from "../generated/marketplace/marketplace"
 
@@ -31,11 +31,8 @@ export function handleListed(event: ListedEvent):void {
 
   const listingId = event.params.listingId
 
-  let stat = Listing.load(event.transaction.from.toHex());
-
-  if(!stat) {
-    stat = new Listing(listingId.toString());
-  }
+  const stat = new Listing(listingId.toString());
+  
   stat.seller = event.params.seller;
   stat.token = event.params.token;
   stat.tokenId = event.params.tokenId;
@@ -182,6 +179,7 @@ export function handleSale(event: Sale): void {
       collection.save()
 
       token.owner = event.params.buyer
+      token.price = null
       token.save()
 
   } 
@@ -193,7 +191,8 @@ export function handleSale(event: Sale): void {
 export function handleStakingOffered(event:StakingOffered): void {
 
   const stakingId = event.params.stakingId
-  const stat = new StakingOffer(stakingId.toString());
+  const uniqueId = event.params.taker.toHexString() + event.params.stakingId.toString()
+  const stat = new StakingOffer(uniqueId);
   const staking = new StakingListing(stakingId.toString())
   const stakingListing = StakingListing.load(stakingId.toString());
 
@@ -219,13 +218,12 @@ export function handleStakingOffered(event:StakingOffered): void {
 export function handleListingOffer(event:ListingOffer): void {
 
   const listingId = event.params.listingId
-  const stat = new BuyingOffer(listingId.toString());
+  const uniqueId = event.params.buyer.toHexString() + event.params.listingId.toString()
+  const stat = new BuyingOffer(uniqueId);
   const listing = Listing.load(listingId.toString());
 
 
   if (!listing) throw new Error('Listing entity is not found');
-  
-
 
   stat.taker = event.params.buyer
   stat.newOfferedPrice = event.params.amount
@@ -258,7 +256,8 @@ export function handleRental(event:Rental): void {
   const token = Token.load(staking.tokenId.toString())
   
   if(!token)  throw new Error('Token entity is not found');
-  token.owner = event.params.taker;
+  token.colloteral = null
+  token.premiumWei = null
 
   token.save()
   staking.save();
@@ -266,8 +265,9 @@ export function handleRental(event:Rental): void {
 
 export function handleListingOfferCompleted(event:ListingOfferCompleted):void{//complete
   const listingId = event.params.listingId
-
-  const statListingOffer = BuyingOffer.load(listingId.toString());
+  const uniqueId = event.params.buyer.toHexString() + event.params.listingId.toString();
+  
+  const statListingOffer = BuyingOffer.load(uniqueId);
   const listing = Listing.load(listingId.toString());
 
   if (!listing) throw new Error('Listing entity is not found');
@@ -280,8 +280,10 @@ export function handleListingOfferCompleted(event:ListingOfferCompleted):void{//
   listing.hasOffer = false;
 
   const token = Token.load(listing.tokenId.toString())
-  if(!token)  throw new Error('Token entity is not found');
+  if(!token) throw new Error('Token entity is not found');
+
   token.owner = event.params.buyer;
+  token.price = null
 
   token.save()
   statListingOffer.save()
@@ -291,23 +293,26 @@ export function handleListingOfferCompleted(event:ListingOfferCompleted):void{//
 export function handleStakingOfferAccepted(event:StakingOfferAccepted): void {
 
   const stakingId = event.params.stakingId
-
+  
   const staking = StakingListing.load(stakingId.toString());
-  const offer = StakingOffer.load(stakingId.toString());
+  const uniqueId = event.params.taker.toHexString() + event.params.stakingId.toString()
 
+  const offer = StakingOffer.load(uniqueId);
+  
   if(!staking) throw new Error('!staking entity is not found');
   if(!offer) throw new Error('!offer entity is not found');
 
   staking.stakingStatus = "RENTED";
   offer.offerStatus = "ACCEPTED";
 
-  staking.seller = event.params.taker;
   staking.hasOffer = false;
 
   const token = Token.load(staking.tokenId.toString())
   
   if(!token)  throw new Error('Token entity is not found');
   token.owner = event.params.taker;
+  token.colloteral = null
+  token.premiumWei = null
 
   token.save()
   staking.save();
@@ -362,6 +367,7 @@ export function handlecollectionTokenMint(event:collectionTokenMint):void {
     nft.collectionName = collection.collectionName;
     nft.tokenAdress = "0x82907ED3c6adeA2F470066aBF614F3B38094bef2";
     nft.hasOffer = false;
+    nft.collectionCategory = collection.collectionCategory;
     nft.save()
 
     if(nft.id == null)throw new Error('id entity is not found');
@@ -376,7 +382,7 @@ export function handlecollectionTokenMint(event:collectionTokenMint):void {
 export function handleOfferForNotListed(event:OfferForNotListed):void{
     const offerId = event.params.offerId
     const offerStats = new OfferForUserNft(offerId.toString())
-    
+    const tokenId = event.params.tokenId
     offerStats.collectionId = event.params.collectionId
     offerStats.offerId = event.params.offerId
 
@@ -388,26 +394,38 @@ export function handleOfferForNotListed(event:OfferForNotListed):void{
     offerStats.tokenName = token.name
     offerStats.tokenUri = token.uri
     offerStats.to = token.owner
-    offerStats.from = event.params.actor
     offerStats.offeredAmount = event.params.amount
 
 
     if(event.params.status == 0){
       offerStats.offerStatus = 'ACTIVE' 
-      token.hasOffer = true;
+      offerStats.from = event.params.actor
 
+      token.hasOffer = true;
     }
 
     if(event.params.status == 1){
       offerStats.offerStatus = 'ACCEPTED' 
+      if(offerStats.from !== null){
       token.owner = offerStats.from;
-      token.hasOffer = false;
     }
+      token.hasOffer = false;
 
-    if(event.params.status == 2){
-      offerStats.offerStatus = 'DENIED' 
-      token.hasOffer = false;
-    }
+      for(let i=0;i<tokenId.toI32() + 100;i++){
+        let offer = OfferForUserNft.load(i.toString())
+        if(offer){
+          if(offer.tokenId == tokenId.toString()){
+              offer.offerStatus = "EXPIRED"
+              offer.save()
+            }
+          }
+        }
+      }
+
+      if(event.params.status == 2){
+        offerStats.offerStatus = 'DENIED' 
+        token.hasOffer = false;
+      }
 
     if(event.params.status == 3){
       offerStats.offerStatus = 'CANCELED' 
@@ -425,3 +443,17 @@ export function handleOfferForNotListed(event:OfferForNotListed):void{
     offerStats.save()
 
 }
+
+export function handlestopRentalEvent(event:stopRentalEvent):void {
+    const stakingId = event.params.stakingId        
+    const stat = StakingListing.load(stakingId.toString())
+  
+    if(!stat) throw new Error("stat entity is was n0T found")
+  
+    stat.stakingStatus = "EXPIRED";
+    stat.save()
+    
+}
+
+  
+  

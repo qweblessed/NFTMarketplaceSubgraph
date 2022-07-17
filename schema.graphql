@@ -39,7 +39,8 @@ enum OfferForUserNftStatus{
   ACTIVE,
   ACCEPTED,
   DENIED,
-  CANCELED
+  CANCELED,
+  EXPIRED
 }
 
 type Listing @entity { 
@@ -103,8 +104,9 @@ type BuyingOffer @entity {
   tokenName:String
   tokenAdress: Bytes!
   offerStatus:OfferStatus!
-
+  
 }
+
 type Token @entity {
   id: ID!
   name:String!
@@ -112,10 +114,11 @@ type Token @entity {
   description:String!
   tokenAdress:String
   creator:Bytes!
-  owner:Bytes!
+  owner:Bytes
   collectionId: BigInt!
   collection: Collection!
   collectionName: String!
+  collectionCategory:Category!
   price:BigInt
   colloteral:BigInt
   premiumWei:BigInt 
@@ -143,8 +146,8 @@ type OfferForUserNft @entity {
   collectionId:BigInt!
   offeredAmount:BigInt!
   offerStatus:OfferForUserNftStatus!
-  from:Bytes!
-  to:Bytes!
+  from:Bytes
+  to:Bytes
   tokenId:String!
   tokenUri:String!
   tokenName:String!

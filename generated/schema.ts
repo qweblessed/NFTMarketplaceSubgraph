@@ -707,13 +707,21 @@ export class Token extends Entity {
     this.set("creator", Value.fromBytes(value));
   }
 
-  get owner(): Bytes {
+  get owner(): Bytes | null {
     let value = this.get("owner");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set owner(value: Bytes) {
-    this.set("owner", Value.fromBytes(value));
+  set owner(value: Bytes | null) {
+    if (!value) {
+      this.unset("owner");
+    } else {
+      this.set("owner", Value.fromBytes(<Bytes>value));
+    }
   }
 
   get collectionId(): BigInt {
@@ -741,6 +749,15 @@ export class Token extends Entity {
 
   set collectionName(value: string) {
     this.set("collectionName", Value.fromString(value));
+  }
+
+  get collectionCategory(): string {
+    let value = this.get("collectionCategory");
+    return value!.toString();
+  }
+
+  set collectionCategory(value: string) {
+    this.set("collectionCategory", Value.fromString(value));
   }
 
   get price(): BigInt | null {
@@ -1009,22 +1026,38 @@ export class OfferForUserNft extends Entity {
     this.set("offerStatus", Value.fromString(value));
   }
 
-  get from(): Bytes {
+  get from(): Bytes | null {
     let value = this.get("from");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set from(value: Bytes) {
-    this.set("from", Value.fromBytes(value));
+  set from(value: Bytes | null) {
+    if (!value) {
+      this.unset("from");
+    } else {
+      this.set("from", Value.fromBytes(<Bytes>value));
+    }
   }
 
-  get to(): Bytes {
+  get to(): Bytes | null {
     let value = this.get("to");
-    return value!.toBytes();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
   }
 
-  set to(value: Bytes) {
-    this.set("to", Value.fromBytes(value));
+  set to(value: Bytes | null) {
+    if (!value) {
+      this.unset("to");
+    } else {
+      this.set("to", Value.fromBytes(<Bytes>value));
+    }
   }
 
   get tokenId(): string {
