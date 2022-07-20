@@ -127,7 +127,7 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "enum Undas.Category",
+        "internalType": "enum UndasMVP.Category",
         "name": "",
         "type": "uint8"
       },
@@ -152,7 +152,19 @@
       {
         "indexed": false,
         "internalType": "string",
-        "name": "url",
+        "name": "logoImgUrl",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "featuredImgUrl",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "bannerImgUrl",
         "type": "string"
       },
       {
@@ -236,7 +248,7 @@
         "type": "address"
       },
       {
-        "internalType": "enum Undas.Category",
+        "internalType": "enum UndasMVP.Category",
         "name": "category",
         "type": "uint8"
       },
@@ -244,6 +256,21 @@
         "internalType": "bool",
         "name": "isVerified",
         "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "logoImgUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "featuredImgUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "bannerImgUrl",
+        "type": "string"
       }
     ],
     "stateMutability": "view",
@@ -258,7 +285,17 @@
       },
       {
         "internalType": "string",
-        "name": "_url",
+        "name": "_logoImgUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_featuredImgUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_bannerImgUrl",
         "type": "string"
       },
       {
@@ -267,7 +304,7 @@
         "type": "string"
       },
       {
-        "internalType": "enum Undas.Category",
+        "internalType": "enum UndasMVP.Category",
         "name": "_category",
         "type": "uint8"
       }
@@ -310,6 +347,19 @@
       }
     ],
     "name": "isApprovedForAll",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isOthersCollectionCreated",
     "outputs": [
       {
         "internalType": "bool",

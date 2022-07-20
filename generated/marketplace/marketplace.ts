@@ -372,6 +372,10 @@ export class StakingOffered__Params {
   get premium(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
+
+  get stakingOfferId(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
 }
 
 export class stopRentalEvent extends ethereum.Event {
@@ -476,6 +480,77 @@ export class marketplace___listingsResult {
 
   getIsTokenFee(): boolean {
     return this.value8;
+  }
+}
+
+export class marketplace___offersForNotListedTokensResult {
+  value0: i32;
+  value1: Address;
+  value2: Address;
+  value3: BigInt;
+  value4: BigInt;
+  value5: BigInt;
+  value6: BigInt;
+
+  constructor(
+    value0: i32,
+    value1: Address,
+    value2: Address,
+    value3: BigInt,
+    value4: BigInt,
+    value5: BigInt,
+    value6: BigInt
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set(
+      "value0",
+      ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value0))
+    );
+    map.set("value1", ethereum.Value.fromAddress(this.value1));
+    map.set("value2", ethereum.Value.fromAddress(this.value2));
+    map.set("value3", ethereum.Value.fromUnsignedBigInt(this.value3));
+    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    map.set("value5", ethereum.Value.fromUnsignedBigInt(this.value5));
+    map.set("value6", ethereum.Value.fromUnsignedBigInt(this.value6));
+    return map;
+  }
+
+  getStatus(): i32 {
+    return this.value0;
+  }
+
+  getTo(): Address {
+    return this.value1;
+  }
+
+  getFrom(): Address {
+    return this.value2;
+  }
+
+  getCollectionId(): BigInt {
+    return this.value3;
+  }
+
+  getTokenId(): BigInt {
+    return this.value4;
+  }
+
+  getOfferPrice(): BigInt {
+    return this.value5;
+  }
+
+  getOfferId(): BigInt {
+    return this.value6;
   }
 }
 
@@ -890,6 +965,74 @@ export class marketplace extends ethereum.SmartContract {
     let result = super.tryCall(
       "_offerLastIndex",
       "_offerLastIndex():(uint256)",
+      []
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
+  }
+
+  _offersForNotListedTokens(
+    param0: BigInt
+  ): marketplace___offersForNotListedTokensResult {
+    let result = super.call(
+      "_offersForNotListedTokens",
+      "_offersForNotListedTokens(uint256):(uint8,address,address,uint256,uint256,uint256,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return new marketplace___offersForNotListedTokensResult(
+      result[0].toI32(),
+      result[1].toAddress(),
+      result[2].toAddress(),
+      result[3].toBigInt(),
+      result[4].toBigInt(),
+      result[5].toBigInt(),
+      result[6].toBigInt()
+    );
+  }
+
+  try__offersForNotListedTokens(
+    param0: BigInt
+  ): ethereum.CallResult<marketplace___offersForNotListedTokensResult> {
+    let result = super.tryCall(
+      "_offersForNotListedTokens",
+      "_offersForNotListedTokens(uint256):(uint8,address,address,uint256,uint256,uint256,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new marketplace___offersForNotListedTokensResult(
+        value[0].toI32(),
+        value[1].toAddress(),
+        value[2].toAddress(),
+        value[3].toBigInt(),
+        value[4].toBigInt(),
+        value[5].toBigInt(),
+        value[6].toBigInt()
+      )
+    );
+  }
+
+  _stakingOfferIndex(): BigInt {
+    let result = super.call(
+      "_stakingOfferIndex",
+      "_stakingOfferIndex():(uint256)",
+      []
+    );
+
+    return result[0].toBigInt();
+  }
+
+  try__stakingOfferIndex(): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "_stakingOfferIndex",
+      "_stakingOfferIndex():(uint256)",
       []
     );
     if (result.reverted) {
@@ -1670,36 +1813,6 @@ export class CancelCall__Outputs {
   }
 }
 
-export class CancelListingOfferCall extends ethereum.Call {
-  get inputs(): CancelListingOfferCall__Inputs {
-    return new CancelListingOfferCall__Inputs(this);
-  }
-
-  get outputs(): CancelListingOfferCall__Outputs {
-    return new CancelListingOfferCall__Outputs(this);
-  }
-}
-
-export class CancelListingOfferCall__Inputs {
-  _call: CancelListingOfferCall;
-
-  constructor(call: CancelListingOfferCall) {
-    this._call = call;
-  }
-
-  get listingId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class CancelListingOfferCall__Outputs {
-  _call: CancelListingOfferCall;
-
-  constructor(call: CancelListingOfferCall) {
-    this._call = call;
-  }
-}
-
 export class CancelOfferForNotListedTokenCall extends ethereum.Call {
   get inputs(): CancelOfferForNotListedTokenCall__Inputs {
     return new CancelOfferForNotListedTokenCall__Inputs(this);
@@ -1726,36 +1839,6 @@ export class CancelOfferForNotListedTokenCall__Outputs {
   _call: CancelOfferForNotListedTokenCall;
 
   constructor(call: CancelOfferForNotListedTokenCall) {
-    this._call = call;
-  }
-}
-
-export class CancelStakingOfferCall extends ethereum.Call {
-  get inputs(): CancelStakingOfferCall__Inputs {
-    return new CancelStakingOfferCall__Inputs(this);
-  }
-
-  get outputs(): CancelStakingOfferCall__Outputs {
-    return new CancelStakingOfferCall__Outputs(this);
-  }
-}
-
-export class CancelStakingOfferCall__Inputs {
-  _call: CancelStakingOfferCall;
-
-  constructor(call: CancelStakingOfferCall) {
-    this._call = call;
-  }
-
-  get listingId(): BigInt {
-    return this._call.inputValues[0].value.toBigInt();
-  }
-}
-
-export class CancelStakingOfferCall__Outputs {
-  _call: CancelStakingOfferCall;
-
-  constructor(call: CancelStakingOfferCall) {
     this._call = call;
   }
 }

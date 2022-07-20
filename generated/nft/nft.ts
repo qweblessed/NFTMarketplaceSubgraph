@@ -155,12 +155,20 @@ export class createdCollection__Params {
     return this._event.parameters[3].value.toString();
   }
 
-  get url(): string {
+  get logoImgUrl(): string {
     return this._event.parameters[4].value.toString();
   }
 
+  get featuredImgUrl(): string {
+    return this._event.parameters[5].value.toString();
+  }
+
+  get bannerImgUrl(): string {
+    return this._event.parameters[6].value.toString();
+  }
+
   get owner(): Address {
-    return this._event.parameters[5].value.toAddress();
+    return this._event.parameters[7].value.toAddress();
   }
 }
 
@@ -187,12 +195,26 @@ export class nft__collectionsResult {
   value1: Address;
   value2: i32;
   value3: boolean;
+  value4: string;
+  value5: string;
+  value6: string;
 
-  constructor(value0: string, value1: Address, value2: i32, value3: boolean) {
+  constructor(
+    value0: string,
+    value1: Address,
+    value2: i32,
+    value3: boolean,
+    value4: string,
+    value5: string,
+    value6: string
+  ) {
     this.value0 = value0;
     this.value1 = value1;
     this.value2 = value2;
     this.value3 = value3;
+    this.value4 = value4;
+    this.value5 = value5;
+    this.value6 = value6;
   }
 
   toMap(): TypedMap<string, ethereum.Value> {
@@ -204,6 +226,9 @@ export class nft__collectionsResult {
       ethereum.Value.fromUnsignedBigInt(BigInt.fromI32(this.value2))
     );
     map.set("value3", ethereum.Value.fromBoolean(this.value3));
+    map.set("value4", ethereum.Value.fromString(this.value4));
+    map.set("value5", ethereum.Value.fromString(this.value5));
+    map.set("value6", ethereum.Value.fromString(this.value6));
     return map;
   }
 
@@ -221,6 +246,18 @@ export class nft__collectionsResult {
 
   getIsVerified(): boolean {
     return this.value3;
+  }
+
+  getLogoImgUrl(): string {
+    return this.value4;
+  }
+
+  getFeaturedImgUrl(): string {
+    return this.value5;
+  }
+
+  getBannerImgUrl(): string {
+    return this.value6;
   }
 }
 
@@ -290,7 +327,7 @@ export class nft extends ethereum.SmartContract {
   collections(param0: BigInt): nft__collectionsResult {
     let result = super.call(
       "collections",
-      "collections(uint256):(string,address,uint8,bool)",
+      "collections(uint256):(string,address,uint8,bool,string,string,string)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
@@ -298,14 +335,17 @@ export class nft extends ethereum.SmartContract {
       result[0].toString(),
       result[1].toAddress(),
       result[2].toI32(),
-      result[3].toBoolean()
+      result[3].toBoolean(),
+      result[4].toString(),
+      result[5].toString(),
+      result[6].toString()
     );
   }
 
   try_collections(param0: BigInt): ethereum.CallResult<nft__collectionsResult> {
     let result = super.tryCall(
       "collections",
-      "collections(uint256):(string,address,uint8,bool)",
+      "collections(uint256):(string,address,uint8,bool,string,string,string)",
       [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
@@ -317,7 +357,10 @@ export class nft extends ethereum.SmartContract {
         value[0].toString(),
         value[1].toAddress(),
         value[2].toI32(),
-        value[3].toBoolean()
+        value[3].toBoolean(),
+        value[4].toString(),
+        value[5].toString(),
+        value[6].toString()
       )
     );
   }
@@ -361,6 +404,29 @@ export class nft extends ethereum.SmartContract {
       "isApprovedForAll",
       "isApprovedForAll(address,address):(bool)",
       [ethereum.Value.fromAddress(owner), ethereum.Value.fromAddress(operator)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  isOthersCollectionCreated(): boolean {
+    let result = super.call(
+      "isOthersCollectionCreated",
+      "isOthersCollectionCreated():(bool)",
+      []
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_isOthersCollectionCreated(): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "isOthersCollectionCreated",
+      "isOthersCollectionCreated():(bool)",
+      []
     );
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -662,16 +728,24 @@ export class CreateCollectionCall__Inputs {
     return this._call.inputValues[0].value.toString();
   }
 
-  get _url(): string {
+  get _logoImgUrl(): string {
     return this._call.inputValues[1].value.toString();
   }
 
-  get _information(): string {
+  get _featuredImgUrl(): string {
     return this._call.inputValues[2].value.toString();
   }
 
+  get _bannerImgUrl(): string {
+    return this._call.inputValues[3].value.toString();
+  }
+
+  get _information(): string {
+    return this._call.inputValues[4].value.toString();
+  }
+
   get _category(): i32 {
-    return this._call.inputValues[3].value.toI32();
+    return this._call.inputValues[5].value.toI32();
   }
 }
 

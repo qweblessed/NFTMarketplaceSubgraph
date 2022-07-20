@@ -24,7 +24,8 @@ enum Category{
   GAMEFI,
   CELEBRITY,
   RWANFT,
-  EXPLICIT
+  EXPLICIT,
+  OTHER
   }
 
 enum ActionType{
@@ -133,6 +134,8 @@ type Collection @entity {
   collectionName:String!
   collectionInfo:String!
   collectionUrl:String!
+  collectionFeatureUrl:String!
+  collectionBannerUrl:String!
   collectionCategory:Category!
   collectionVolume:BigInt!
   collectionItemsAmount:BigInt!

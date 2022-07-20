@@ -922,6 +922,24 @@ export class Collection extends Entity {
     this.set("collectionUrl", Value.fromString(value));
   }
 
+  get collectionFeatureUrl(): string {
+    let value = this.get("collectionFeatureUrl");
+    return value!.toString();
+  }
+
+  set collectionFeatureUrl(value: string) {
+    this.set("collectionFeatureUrl", Value.fromString(value));
+  }
+
+  get collectionBannerUrl(): string {
+    let value = this.get("collectionBannerUrl");
+    return value!.toString();
+  }
+
+  set collectionBannerUrl(value: string) {
+    this.set("collectionBannerUrl", Value.fromString(value));
+  }
+
   get collectionCategory(): string {
     let value = this.get("collectionCategory");
     return value!.toString();

@@ -6,9 +6,9 @@ dataSources:
     name: marketplace
     network: goerli
     source:
-      address: "0x8beF102f693941418cBacDf1eB94c48338f2F260"
+      address: "0xA24a7E2beed00E65C6B44006C7cfd6c7E8409c6A"
       abi: marketplace
-      startBlock: 7186437
+      startBlock: 7254905
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -55,7 +55,7 @@ dataSources:
           handler: handleSale
         - event: StakingOfferAccepted(uint256,address)
           handler: handleStakingOfferAccepted
-        - event: StakingOffered(uint256,address,uint256,uint256)
+        - event: StakingOffered(uint256,address,uint256,uint256,uint256)
           handler: handleStakingOffered
         - event: OfferForNotListed(uint8,uint256,uint256,uint256,uint256,address)
           handler: handleOfferForNotListed
@@ -66,9 +66,9 @@ dataSources:
     name: nft
     network: goerli
     source:
-      address: "0x82907ED3c6adeA2F470066aBF614F3B38094bef2"
+      address: "0x19CF92bC45Bc202DC4d4eE80f50ffE49CB09F91d"
       abi: nft
-      startBlock: 7186443
+      startBlock: 7254972
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -83,7 +83,7 @@ dataSources:
       eventHandlers:
         - event: collectionTokenMint(address,uint256,string,string,string,uint256)
           handler: handlecollectionTokenMint
-        - event: createdCollection(uint8,string,uint256,string,string,address)
+        - event: createdCollection(uint8,string,uint256,string,string,string,string,address)
           handler: handlecreatedCollection
         - event: verify(uint256)
           handler: handleverify

@@ -123,7 +123,7 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "enum Undas.Category",
+        "internalType": "enum UndasMVP.Category",
         "name": "",
         "type": "uint8"
       },
@@ -148,7 +148,19 @@
       {
         "indexed": false,
         "internalType": "string",
-        "name": "url",
+        "name": "logoImgUrl",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "featuredImgUrl",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "bannerImgUrl",
         "type": "string"
       },
       {
@@ -200,11 +212,14 @@
       { "internalType": "string", "name": "name", "type": "string" },
       { "internalType": "address", "name": "owner", "type": "address" },
       {
-        "internalType": "enum Undas.Category",
+        "internalType": "enum UndasMVP.Category",
         "name": "category",
         "type": "uint8"
       },
-      { "internalType": "bool", "name": "isVerified", "type": "bool" }
+      { "internalType": "bool", "name": "isVerified", "type": "bool" },
+      { "internalType": "string", "name": "logoImgUrl", "type": "string" },
+      { "internalType": "string", "name": "featuredImgUrl", "type": "string" },
+      { "internalType": "string", "name": "bannerImgUrl", "type": "string" }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -212,10 +227,12 @@
   {
     "inputs": [
       { "internalType": "string", "name": "_collectionName", "type": "string" },
-      { "internalType": "string", "name": "_url", "type": "string" },
+      { "internalType": "string", "name": "_logoImgUrl", "type": "string" },
+      { "internalType": "string", "name": "_featuredImgUrl", "type": "string" },
+      { "internalType": "string", "name": "_bannerImgUrl", "type": "string" },
       { "internalType": "string", "name": "_information", "type": "string" },
       {
-        "internalType": "enum Undas.Category",
+        "internalType": "enum UndasMVP.Category",
         "name": "_category",
         "type": "uint8"
       }
@@ -240,6 +257,13 @@
       { "internalType": "address", "name": "operator", "type": "address" }
     ],
     "name": "isApprovedForAll",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "isOthersCollectionCreated",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
     "stateMutability": "view",
     "type": "function"
