@@ -156,7 +156,7 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "enum MarketplaceMVP.OfferStatus",
+        "internalType": "enum MarketplaceMVPV3.OfferStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -257,6 +257,18 @@
         "internalType": "address",
         "name": "taker",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "maker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "startRentalUTC",
+        "type": "uint256"
       }
     ],
     "name": "Rental",
@@ -371,30 +383,70 @@
   {
     "inputs": [],
     "name": "NFTTokenDistributionWhiteLister",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "name": "NFTsEligibleForTokenDistribution",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "_listings",
     "outputs": [
       {
-        "internalType": "enum MarketplaceMVP.ListingStatus",
+        "internalType": "enum MarketplaceMVPV3.ListingStatus",
         "name": "status",
         "type": "uint8"
       },
-      { "internalType": "address", "name": "seller", "type": "address" },
-      { "internalType": "uint256", "name": "price", "type": "uint256" },
-      { "internalType": "address", "name": "token", "type": "address" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+      {
+        "internalType": "address",
+        "name": "seller",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "startListingUTC",
@@ -405,8 +457,16 @@
         "name": "tokenPaymentsAmount",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "cashback", "type": "uint256" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "cashback",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -414,32 +474,74 @@
   {
     "inputs": [],
     "name": "_listingsLastIndex",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "_offerLastIndex",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "_offersForNotListedTokens",
     "outputs": [
       {
-        "internalType": "enum MarketplaceMVP.OfferStatus",
+        "internalType": "enum MarketplaceMVPV3.OfferStatus",
         "name": "status",
         "type": "uint8"
       },
-      { "internalType": "address", "name": "to", "type": "address" },
-      { "internalType": "address", "name": "from", "type": "address" },
-      { "internalType": "uint256", "name": "collectionId", "type": "uint256" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "uint256", "name": "offerPrice", "type": "uint256" },
-      { "internalType": "uint256", "name": "offerId", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collectionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "offerPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -447,23 +549,51 @@
   {
     "inputs": [],
     "name": "_stakingOfferIndex",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "_stakings",
     "outputs": [
       {
-        "internalType": "enum MarketplaceMVP.StakeStatus",
+        "internalType": "enum MarketplaceMVPV3.StakeStatus",
         "name": "status",
         "type": "uint8"
       },
-      { "internalType": "address", "name": "maker", "type": "address" },
-      { "internalType": "address", "name": "taker", "type": "address" },
-      { "internalType": "uint256", "name": "collateral", "type": "uint256" },
-      { "internalType": "uint256", "name": "premium", "type": "uint256" },
+      {
+        "internalType": "address",
+        "name": "maker",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "taker",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateral",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "premium",
+        "type": "uint256"
+      },
       {
         "internalType": "uint256",
         "name": "startRentalUTC",
@@ -484,19 +614,45 @@
         "name": "tokenPaymentsAmount",
         "type": "uint256"
       },
-      { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-      { "internalType": "address", "name": "token", "type": "address" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "deadline",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "name": "_stakingsExtension",
     "outputs": [
-      { "internalType": "uint256", "name": "cashback", "type": "uint256" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "cashback",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -504,14 +660,28 @@
   {
     "inputs": [],
     "name": "_stakingsLastIndex",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" },
-      { "internalType": "address", "name": "taker", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "taker",
+        "type": "address"
+      }
     ],
     "name": "acceptListingOffer",
     "outputs": [],
@@ -520,8 +690,16 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "offerId", "type": "uint256" },
-      { "internalType": "address", "name": "tokenContract", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      }
     ],
     "name": "acceptOfferForNotListedToken",
     "outputs": [],
@@ -530,9 +708,21 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" },
-      { "internalType": "address", "name": "taker", "type": "address" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "taker",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "name": "acceptStakingOffer",
     "outputs": [],
@@ -541,13 +731,41 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "tokenContract", "type": "address" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "uint256", "name": "collateralWei", "type": "uint256" },
-      { "internalType": "uint256", "name": "premiumWei", "type": "uint256" },
-      { "internalType": "uint256", "name": "deadlineUTC", "type": "uint256" },
-      { "internalType": "uint256", "name": "priceWei", "type": "uint256" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralWei",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "premiumWei",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "deadlineUTC",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "priceWei",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "name": "bidAndStake",
     "outputs": [],
@@ -556,10 +774,26 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "tokenContract", "type": "address" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "uint256", "name": "priceWei", "type": "uint256" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "priceWei",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "name": "bidExternal",
     "outputs": [],
@@ -568,7 +802,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
     ],
     "name": "buyToken",
     "outputs": [],
@@ -577,16 +815,30 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "canRentNFT",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
     ],
     "name": "cancel",
     "outputs": [],
@@ -595,7 +847,24 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "offerId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelListingOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
     ],
     "name": "cancelOfferForNotListedToken",
     "outputs": [],
@@ -604,7 +873,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "claimCollateral",
     "outputs": [],
@@ -612,14 +885,26 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
     "name": "claimTokensListing",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
     "name": "claimTokensRent",
     "outputs": [],
     "stateMutability": "nonpayable",
@@ -627,18 +912,30 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "dateOfNextPayment",
     "outputs": [
-      { "internalType": "uint256", "name": "date", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "date",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "offerId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "offerId",
+        "type": "uint256"
+      }
     ],
     "name": "denyOfferForNotListedToken",
     "outputs": [],
@@ -648,34 +945,53 @@
   {
     "inputs": [],
     "name": "factory",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getContractBalanceV2",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
     ],
     "name": "getListing",
     "outputs": [
       {
         "components": [
           {
-            "internalType": "enum MarketplaceMVP.ListingStatus",
+            "internalType": "enum MarketplaceMVPV3.ListingStatus",
             "name": "status",
             "type": "uint8"
           },
-          { "internalType": "address", "name": "seller", "type": "address" },
-          { "internalType": "uint256", "name": "price", "type": "uint256" },
-          { "internalType": "address", "name": "token", "type": "address" },
-          { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+          {
+            "internalType": "address",
+            "name": "seller",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          },
           {
             "internalType": "uint256",
             "name": "startListingUTC",
@@ -686,10 +1002,18 @@
             "name": "tokenPaymentsAmount",
             "type": "uint256"
           },
-          { "internalType": "uint256", "name": "cashback", "type": "uint256" },
-          { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+          {
+            "internalType": "uint256",
+            "name": "cashback",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isTokenFee",
+            "type": "bool"
+          }
         ],
-        "internalType": "struct MarketplaceMVP.Listing",
+        "internalType": "struct MarketplaceMVPV3.Listing",
         "name": "",
         "type": "tuple"
       }
@@ -699,25 +1023,41 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "getStaking",
     "outputs": [
       {
         "components": [
           {
-            "internalType": "enum MarketplaceMVP.StakeStatus",
+            "internalType": "enum MarketplaceMVPV3.StakeStatus",
             "name": "status",
             "type": "uint8"
           },
-          { "internalType": "address", "name": "maker", "type": "address" },
-          { "internalType": "address", "name": "taker", "type": "address" },
+          {
+            "internalType": "address",
+            "name": "maker",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "taker",
+            "type": "address"
+          },
           {
             "internalType": "uint256",
             "name": "collateral",
             "type": "uint256"
           },
-          { "internalType": "uint256", "name": "premium", "type": "uint256" },
+          {
+            "internalType": "uint256",
+            "name": "premium",
+            "type": "uint256"
+          },
           {
             "internalType": "uint256",
             "name": "startRentalUTC",
@@ -738,11 +1078,23 @@
             "name": "tokenPaymentsAmount",
             "type": "uint256"
           },
-          { "internalType": "uint256", "name": "deadline", "type": "uint256" },
-          { "internalType": "address", "name": "token", "type": "address" },
-          { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tokenId",
+            "type": "uint256"
+          }
         ],
-        "internalType": "struct MarketplaceMVP.Staking",
+        "internalType": "struct MarketplaceMVPV3.Staking",
         "name": "",
         "type": "tuple"
       }
@@ -752,8 +1104,16 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "_platform", "type": "address" },
-      { "internalType": "address", "name": "_token", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "_platform",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_token",
+        "type": "address"
+      },
       {
         "internalType": "address",
         "name": "_NFTTokenDistributionWhiteLister",
@@ -769,8 +1129,16 @@
         "name": "_maxCollateralEligibleForTokens",
         "type": "uint256"
       },
-      { "internalType": "address", "name": "_factory", "type": "address" },
-      { "internalType": "address", "name": "_wETH", "type": "address" }
+      {
+        "internalType": "address",
+        "name": "_factory",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_wETH",
+        "type": "address"
+      }
     ],
     "name": "initialize",
     "outputs": [],
@@ -779,25 +1147,49 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
     ],
     "name": "isBuyable",
-    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "isCollateralClaimable",
-    "outputs": [{ "internalType": "bool", "name": "status", "type": "bool" }],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "status",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "listingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
     ],
     "name": "listingOffer",
     "outputs": [],
@@ -807,41 +1199,91 @@
   {
     "inputs": [],
     "name": "maxCollateralEligibleForTokens",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "", "type": "address" },
-      { "internalType": "uint256", "name": "", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
     "name": "nftListingIds",
     "outputs": [
-      { "internalType": "bool", "name": "valueExists", "type": "bool" },
-      { "internalType": "uint256", "name": "value", "type": "uint256" }
+      {
+        "internalType": "bool",
+        "name": "valueExists",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "", "type": "address" },
-      { "internalType": "uint256", "name": "", "type": "uint256" }
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
     ],
     "name": "nftStakingIds",
     "outputs": [
-      { "internalType": "bool", "name": "valueExists", "type": "bool" },
-      { "internalType": "uint256", "name": "value", "type": "uint256" }
+      {
+        "internalType": "bool",
+        "name": "valueExists",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "collectionId", "type": "uint256" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "address", "name": "tokenContract", "type": "address" }
+      {
+        "internalType": "uint256",
+        "name": "collectionId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      }
     ],
     "name": "offerForNotListedToken",
     "outputs": [],
@@ -850,8 +1292,16 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" },
-      { "internalType": "bool", "name": "isToken", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isToken",
+        "type": "bool"
+      }
     ],
     "name": "payPremium",
     "outputs": [],
@@ -860,11 +1310,19 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "paymentsDue",
     "outputs": [
-      { "internalType": "int256", "name": "amountDue", "type": "int256" }
+      {
+        "internalType": "int256",
+        "name": "amountDue",
+        "type": "int256"
+      }
     ],
     "stateMutability": "view",
     "type": "function"
@@ -872,18 +1330,48 @@
   {
     "inputs": [],
     "name": "platform",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "tokenContract", "type": "address" },
-      { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
-      { "internalType": "uint256", "name": "collateralWei", "type": "uint256" },
-      { "internalType": "uint256", "name": "premiumWei", "type": "uint256" },
-      { "internalType": "uint256", "name": "deadlineUTC", "type": "uint256" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "address",
+        "name": "tokenContract",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "collateralWei",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "premiumWei",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "deadlineUTC",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "name": "quoteForStakingExternal",
     "outputs": [],
@@ -892,7 +1380,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "removeStakingOffer",
     "outputs": [],
@@ -901,8 +1393,16 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" },
-      { "internalType": "bool", "name": "isTokenFee", "type": "bool" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "isTokenFee",
+        "type": "bool"
+      }
     ],
     "name": "rentNFT",
     "outputs": [],
@@ -911,9 +1411,21 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" },
-      { "internalType": "uint256", "name": "_collateral", "type": "uint256" },
-      { "internalType": "uint256", "name": "_premium", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_collateral",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_premium",
+        "type": "uint256"
+      }
     ],
     "name": "stakingOffer",
     "outputs": [],
@@ -922,7 +1434,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingId", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingId",
+        "type": "uint256"
+      }
     ],
     "name": "stopRental",
     "outputs": [],
@@ -931,7 +1447,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "stakingIndex", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "stakingIndex",
+        "type": "uint256"
+      }
     ],
     "name": "stopStaking",
     "outputs": [],
@@ -941,40 +1461,75 @@
   {
     "inputs": [],
     "name": "tokensDistributionAmount",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "tokensDistributionEnd",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "undasToken",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "wETH",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "nft", "type": "address" },
-      { "internalType": "bool", "name": "whitelist", "type": "bool" }
+      {
+        "internalType": "address",
+        "name": "nft",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "whitelist",
+        "type": "bool"
+      }
     ],
     "name": "whiteListNFTToggle",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
-  { "stateMutability": "payable", "type": "receive" }
+  {
+    "stateMutability": "payable",
+    "type": "receive"
+  }
 ]

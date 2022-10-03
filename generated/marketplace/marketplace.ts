@@ -286,6 +286,14 @@ export class Rental__Params {
   get taker(): Address {
     return this._event.parameters[1].value.toAddress();
   }
+
+  get maker(): Address {
+    return this._event.parameters[2].value.toAddress();
+  }
+
+  get startRentalUTC(): BigInt {
+    return this._event.parameters[3].value.toBigInt();
+  }
 }
 
 export class Sale extends ethereum.Event {
@@ -1208,29 +1216,6 @@ export class marketplace extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toAddress());
   }
 
-  getContractBalanceV2(): BigInt {
-    let result = super.call(
-      "getContractBalanceV2",
-      "getContractBalanceV2():(uint256)",
-      []
-    );
-
-    return result[0].toBigInt();
-  }
-
-  try_getContractBalanceV2(): ethereum.CallResult<BigInt> {
-    let result = super.tryCall(
-      "getContractBalanceV2",
-      "getContractBalanceV2():(uint256)",
-      []
-    );
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
   getListing(listingId: BigInt): marketplace__getListingResultValue0Struct {
     let result = super.call(
       "getListing",
@@ -1809,6 +1794,36 @@ export class CancelCall__Outputs {
   _call: CancelCall;
 
   constructor(call: CancelCall) {
+    this._call = call;
+  }
+}
+
+export class CancelListingOfferCall extends ethereum.Call {
+  get inputs(): CancelListingOfferCall__Inputs {
+    return new CancelListingOfferCall__Inputs(this);
+  }
+
+  get outputs(): CancelListingOfferCall__Outputs {
+    return new CancelListingOfferCall__Outputs(this);
+  }
+}
+
+export class CancelListingOfferCall__Inputs {
+  _call: CancelListingOfferCall;
+
+  constructor(call: CancelListingOfferCall) {
+    this._call = call;
+  }
+
+  get listingId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class CancelListingOfferCall__Outputs {
+  _call: CancelListingOfferCall;
+
+  constructor(call: CancelListingOfferCall) {
     this._call = call;
   }
 }

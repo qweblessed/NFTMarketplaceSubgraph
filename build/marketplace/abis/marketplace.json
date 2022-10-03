@@ -156,7 +156,7 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "enum MarketplaceMVP.OfferStatus",
+        "internalType": "enum MarketplaceMVPV3.OfferStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -257,6 +257,18 @@
         "internalType": "address",
         "name": "taker",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "maker",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "startRentalUTC",
+        "type": "uint256"
       }
     ],
     "name": "Rental",
@@ -411,7 +423,7 @@
     "name": "_listings",
     "outputs": [
       {
-        "internalType": "enum MarketplaceMVP.ListingStatus",
+        "internalType": "enum MarketplaceMVPV3.ListingStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -496,7 +508,7 @@
     "name": "_offersForNotListedTokens",
     "outputs": [
       {
-        "internalType": "enum MarketplaceMVP.OfferStatus",
+        "internalType": "enum MarketplaceMVPV3.OfferStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -558,7 +570,7 @@
     "name": "_stakings",
     "outputs": [
       {
-        "internalType": "enum MarketplaceMVP.StakeStatus",
+        "internalType": "enum MarketplaceMVPV3.StakeStatus",
         "name": "status",
         "type": "uint8"
       },
@@ -837,6 +849,19 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "listingId",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelListingOffer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "offerId",
         "type": "uint256"
       }
@@ -931,19 +956,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getContractBalanceV2",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -956,7 +968,7 @@
       {
         "components": [
           {
-            "internalType": "enum MarketplaceMVP.ListingStatus",
+            "internalType": "enum MarketplaceMVPV3.ListingStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -1001,7 +1013,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct MarketplaceMVP.Listing",
+        "internalType": "struct MarketplaceMVPV3.Listing",
         "name": "",
         "type": "tuple"
       }
@@ -1022,7 +1034,7 @@
       {
         "components": [
           {
-            "internalType": "enum MarketplaceMVP.StakeStatus",
+            "internalType": "enum MarketplaceMVPV3.StakeStatus",
             "name": "status",
             "type": "uint8"
           },
@@ -1082,7 +1094,7 @@
             "type": "uint256"
           }
         ],
-        "internalType": "struct MarketplaceMVP.Staking",
+        "internalType": "struct MarketplaceMVPV3.Staking",
         "name": "",
         "type": "tuple"
       }

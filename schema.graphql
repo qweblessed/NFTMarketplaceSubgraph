@@ -21,19 +21,11 @@ enum Category{
   ARTWORK,
   SPORTS,
   PHOTOGRAPHY,
-  GAMEFI,
+  METAVERSE,
   CELEBRITY,
   RWANFT,
   EXPLICIT,
   OTHER
-  }
-
-enum ActionType{
-  OFFER,
-  LIST,
-  RENT,
-  SALE,
-  MINT,
 }
 
 enum OfferForUserNftStatus{
@@ -42,6 +34,14 @@ enum OfferForUserNftStatus{
   DENIED,
   CANCELED,
   EXPIRED
+}
+
+enum ActionType{
+  RENT,
+  RENTED,
+  LIST,
+  SALE,
+  MINT
 }
 
 type Listing @entity { 
@@ -76,7 +76,7 @@ type StakingListing @entity {
   hasOffer:Boolean!
   collectionName: String
   collectionId: BigInt
-  
+  startRentalUTC: BigInt
 }
 
 type StakingOffer @entity {
@@ -126,6 +126,7 @@ type Token @entity {
   listingId:String
   stakingId:String
   hasOffer:Boolean!
+  test:Boolean
 }
 
 type Collection @entity {
@@ -141,7 +142,6 @@ type Collection @entity {
   collectionItemsAmount:BigInt!
   tokens: [Token!]! @derivedFrom(field: "collection")
 }
-# event OfferForNotListed(OfferStatus status, uint256 offerId,uint256 tokenId, uint256 collectionId, uint256 amount);
 
 type OfferForUserNft @entity {
   id: ID!
@@ -155,3 +155,20 @@ type OfferForUserNft @entity {
   tokenUri:String!
   tokenName:String!
 }
+
+type Statistic @entity {
+  id: ID!
+  type:ActionType!
+  name:String!
+  uri:String
+  price:BigInt
+  from:Bytes
+  to:Bytes
+  timestamp:BigInt!
+  collectionName:String
+  collectionId:String
+  collectionCategory:Category
+}
+
+
+

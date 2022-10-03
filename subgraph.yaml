@@ -27,8 +27,10 @@ dataSources:
         - StakingOffered
         - Token
         - User  
-        - OfferForNotListed
+        # - OfferForNotListed
         - stopRentalEvent
+        - Statistic       
+        - CancelStaking 
       abis:
         - name: marketplace
           file: ./abis/marketplace.json
@@ -49,7 +51,7 @@ dataSources:
           handler: handleListingOfferCompleted
         - event: QuotedForStaking(uint256,address,address,uint256,uint256,uint256,uint256)
           handler: handleQuotedForStaking
-        - event: Rental(uint256,address)
+        - event: Rental(uint256,address,address,uint256)
           handler: handleRental
         - event: Sale(uint256,address,address,uint256,uint256)
           handler: handleSale
@@ -57,10 +59,12 @@ dataSources:
           handler: handleStakingOfferAccepted
         - event: StakingOffered(uint256,address,uint256,uint256,uint256)
           handler: handleStakingOffered
-        - event: OfferForNotListed(uint8,uint256,uint256,uint256,uint256,address)
-          handler: handleOfferForNotListed
+        # - event: OfferForNotListed(uint8,uint256,uint256,uint256,uint256,address)
+        #   handler: handleOfferForNotListed
         - event: stopRentalEvent(uint256)
           handler: handlestopRentalEvent
+        - event: CancelStaking(uint256)
+          handler: handleStopStaking  
       file: ./src/mapping.ts
   - kind: ethereum
     name: nft
@@ -68,7 +72,7 @@ dataSources:
     source:   
       address: "0x19CF92bC45Bc202DC4d4eE80f50ffE49CB09F91d"
       abi: nft 
-      startBlock: 7254972
+      startBlock: 7254972	
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6

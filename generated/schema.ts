@@ -354,6 +354,23 @@ export class StakingListing extends Entity {
       this.set("collectionId", Value.fromBigInt(<BigInt>value));
     }
   }
+
+  get startRentalUTC(): BigInt | null {
+    let value = this.get("startRentalUTC");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set startRentalUTC(value: BigInt | null) {
+    if (!value) {
+      this.unset("startRentalUTC");
+    } else {
+      this.set("startRentalUTC", Value.fromBigInt(<BigInt>value));
+    }
+  }
 }
 
 export class StakingOffer extends Entity {
@@ -853,6 +870,15 @@ export class Token extends Entity {
   set hasOffer(value: boolean) {
     this.set("hasOffer", Value.fromBoolean(value));
   }
+
+  get test(): boolean {
+    let value = this.get("test");
+    return value!.toBoolean();
+  }
+
+  set test(value: boolean) {
+    this.set("test", Value.fromBoolean(value));
+  }
 }
 
 export class Collection extends Entity {
@@ -1103,5 +1129,183 @@ export class OfferForUserNft extends Entity {
 
   set tokenName(value: string) {
     this.set("tokenName", Value.fromString(value));
+  }
+}
+
+export class Statistic extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save Statistic entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type Statistic must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("Statistic", id.toString(), this);
+    }
+  }
+
+  static load(id: string): Statistic | null {
+    return changetype<Statistic | null>(store.get("Statistic", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get type(): string {
+    let value = this.get("type");
+    return value!.toString();
+  }
+
+  set type(value: string) {
+    this.set("type", Value.fromString(value));
+  }
+
+  get name(): string {
+    let value = this.get("name");
+    return value!.toString();
+  }
+
+  set name(value: string) {
+    this.set("name", Value.fromString(value));
+  }
+
+  get uri(): string | null {
+    let value = this.get("uri");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set uri(value: string | null) {
+    if (!value) {
+      this.unset("uri");
+    } else {
+      this.set("uri", Value.fromString(<string>value));
+    }
+  }
+
+  get price(): BigInt | null {
+    let value = this.get("price");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
+  }
+
+  set price(value: BigInt | null) {
+    if (!value) {
+      this.unset("price");
+    } else {
+      this.set("price", Value.fromBigInt(<BigInt>value));
+    }
+  }
+
+  get from(): Bytes | null {
+    let value = this.get("from");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set from(value: Bytes | null) {
+    if (!value) {
+      this.unset("from");
+    } else {
+      this.set("from", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get to(): Bytes | null {
+    let value = this.get("to");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBytes();
+    }
+  }
+
+  set to(value: Bytes | null) {
+    if (!value) {
+      this.unset("to");
+    } else {
+      this.set("to", Value.fromBytes(<Bytes>value));
+    }
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value!.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+
+  get collectionName(): string | null {
+    let value = this.get("collectionName");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set collectionName(value: string | null) {
+    if (!value) {
+      this.unset("collectionName");
+    } else {
+      this.set("collectionName", Value.fromString(<string>value));
+    }
+  }
+
+  get collectionId(): string | null {
+    let value = this.get("collectionId");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set collectionId(value: string | null) {
+    if (!value) {
+      this.unset("collectionId");
+    } else {
+      this.set("collectionId", Value.fromString(<string>value));
+    }
+  }
+
+  get collectionCategory(): string | null {
+    let value = this.get("collectionCategory");
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
+  }
+
+  set collectionCategory(value: string | null) {
+    if (!value) {
+      this.unset("collectionCategory");
+    } else {
+      this.set("collectionCategory", Value.fromString(<string>value));
+    }
   }
 }
